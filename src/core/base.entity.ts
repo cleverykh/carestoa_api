@@ -35,16 +35,18 @@ export class BaseEntity<T> extends TypeormBaseEntity {
 
   @Column({
     type: 'datetime',
+    name: 'CREATE_DATE',
     default: () => 'CURRENT_TIMESTAMP',
     nullable: true,
   })
-  createdAt: Date;
+  createDate: Date;
 
   @Column({
     type: 'datetime',
+    name: 'UPDATE_DATE',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     nullable: true,
   })
-  updatedAt: Date;
+  updateDate: Date;
 }

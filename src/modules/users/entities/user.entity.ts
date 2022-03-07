@@ -1,7 +1,8 @@
+import { BaseEntity } from 'src/core/base.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('User')
-export class UserEntity {
+export class UserEntity extends BaseEntity<UserEntity> {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'NO',
@@ -48,10 +49,4 @@ export class UserEntity {
     unique: false,
   })
   phoneNumber: string;
-
-  @Column({
-    type: 'varchar',
-    name: 'TEST',
-  })
-  test: string;
 }
