@@ -1,22 +1,30 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { ProductsModule, UsersModule } from './modules';
 
 @Module({
   imports: [
-    UsersModule,
+    ConfigModule.forRoot({
+      envFilePath:
+        process.env.NODE_ENV === 'production'
+          ? '.production.env'
+          : '.development.env',
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'test',
-      database: 'test',
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT),
+      username: process.env.USER_NAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, //Production 에서는 꼭 false 로 할 것!!
+      synchronize: process.env.NODE_ENV === 'production' ? false : true, //Don't edit it. Never!!
     }),
+    UsersModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
