@@ -1,4 +1,10 @@
-import { BaseEntity as TypeormBaseEntity, Column } from 'typeorm';
+import {
+  BaseEntity as TypeormBaseEntity,
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { BaseDto } from './base.dto';
 
 export class BaseEntity<T> extends TypeormBaseEntity {
@@ -33,19 +39,23 @@ export class BaseEntity<T> extends TypeormBaseEntity {
     return this;
   }
 
-  @Column({
+  @PrimaryGeneratedColumn({
+    type: 'int',
+    name: 'NO',
+    unsigned: true,
+  })
+  no: number;
+
+  @CreateDateColumn({
     type: 'datetime',
     name: 'CREATE_DATE',
-    default: () => 'CURRENT_TIMESTAMP',
     nullable: true,
   })
   createDate: Date;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'datetime',
     name: 'UPDATE_DATE',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
     nullable: true,
   })
   updateDate: Date;

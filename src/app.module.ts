@@ -4,25 +4,27 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule, UsersModule } from './modules';
+import { AuthModule } from './modules/auth/auth.module';
 
+const env = process.env;
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath:
-        process.env.NODE_ENV === 'production'
-          ? '.production.env'
-          : '.development.env',
+        env.NODE_ENV === 'production' ? '.production.env' : '.development.env',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.HOST,
-      port: parseInt(process.env.PORT),
-      username: process.env.USER_NAME,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      host: env.DB_HOST,
+      port: parseInt(env.DB_PORT),
+      username: env.DB_USER_NAME,
+      password: env.DB_PASSWORD,
+      database: env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: process.env.NODE_ENV === 'production' ? false : true, //Don't edit it. Never!!
+      logging: env.NODE_ENV === 'production' ? false : true,
+      synchronize: env.NODE_ENV === 'production' ? false : true, //Don't edit it. Never!!
     }),
+    AuthModule,
     UsersModule,
     ProductsModule,
   ],
