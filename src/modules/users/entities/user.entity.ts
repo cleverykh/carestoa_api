@@ -1,5 +1,6 @@
+import { FLAG_YN } from 'src/common/interfaces/flag-yn.type';
 import { BaseEntity } from 'src/core/base.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity('User')
 export class User extends BaseEntity<User> {
@@ -29,11 +30,11 @@ export class User extends BaseEntity<User> {
 
   @Column({
     type: 'varchar',
-    name: 'RESIDENT_REGISTRATION_NUMBER',
+    name: 'DATE_BIRTH',
     nullable: true,
     unique: false,
   })
-  residentRegistrationNumber: string;
+  dateBirth: string;
 
   @Column({
     type: 'varchar',
@@ -42,4 +43,28 @@ export class User extends BaseEntity<User> {
     unique: false,
   })
   phoneNumber: string;
+
+  @Column({
+    type: 'varchar',
+    name: 'SERVICE_AGREEMENT',
+    nullable: false,
+    unique: false,
+  })
+  serviceAgreement: FLAG_YN;
+
+  @Column({
+    type: 'varchar',
+    name: 'PRIVACY_TERMS',
+    nullable: false,
+    unique: false,
+  })
+  privacyTerms: FLAG_YN;
+
+  @Column({
+    type: 'varchar',
+    name: 'MARKETING_TERMS',
+    nullable: false,
+    unique: false,
+  })
+  marketingTerms: FLAG_YN;
 }
