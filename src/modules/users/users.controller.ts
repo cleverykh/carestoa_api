@@ -7,44 +7,59 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+// import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { AuthGuard } from '@nestjs/passport';
+// import { CONST_USER_PERMISSION } from 'src/common';
+import { AuthRolesGuard } from 'src/core/guards';
 
-@ApiTags('USERS')
-@Controller('users')
+@ApiTags('USER')
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('user')
   @ApiOperation({ summary: 'User 생성' })
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.usersService.create(createUserDto);
   }
 
-  @Get(':userNo')
+  @Get('user/me')
+  @UseGuards(new AuthRolesGuard())
+  @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
-  findOne(@Param('userNo') userNo: number) {
-    return this.usersService.findOne(userNo);
+  async findeMe(@Req() req) {
+    return req.user;
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
+  //TODO : Admin 에서 사용자 정보 가져올 경우 구현
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
+  // @UseGuards(new AuthRolesGuard(...CONST_USER_PERMISSION))
+  // @Get('user/:userNo')
+  // @ApiOperation({ summary: '사용자 정보 가져오기' })
+  // @ApiBearerAuth()
+  // async findOne(@Param('userNo') userNo: number): Promise<User> {
+  //   console.log(`컨트롤러에서 user 값 :   ${userNo}`);
+  //   return this.usersService.findOneForUser(userNo);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
-  }
+  // @Get('users')
+  // @ApiBearerAuth()
+  // findAll() {
+  //   return this.usersService.findAll();
+  // }
+
+  // @Patch('user/:id')
+  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return this.usersService.update(+id, updateUserDto);
+  // }
+
+  // @Delete('user/:id')
+  // remove(@Param('id') id: string) {
+  //   return this.usersService.remove(+id);
+  // }
 }

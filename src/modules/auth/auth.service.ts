@@ -9,17 +9,14 @@ import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserSigninPayload } from './types/user-signin.type';
-import { hash, compare } from 'bcrypt';
 import { PasswordService } from './password.service';
-
-const bcryptSaltRounds = 10;
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
   ) {}
 

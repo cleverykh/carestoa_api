@@ -2,7 +2,7 @@ import { FLAG_YN } from 'src/common/interfaces/flag-yn.type';
 import { BaseEntity } from 'src/core/base.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity('User')
+@Entity('user')
 export class User extends BaseEntity<User> {
   @Column({
     type: 'varchar',
@@ -49,7 +49,7 @@ export class User extends BaseEntity<User> {
 
   @Column({
     type: 'varchar',
-    name: 'PRIVIDE_INFO_AGREEMENT',
+    name: 'PROVIDE_INFO_AGREEMENT',
   })
   provideInfoAgreement: FLAG_YN;
 

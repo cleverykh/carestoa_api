@@ -39,7 +39,7 @@ export class UsersService {
     return user;
   }
 
-  async findOne(userNo: number) {
+  async findOneForUser(userNo: number) {
     const qb = await this.userRepo
       .createQueryBuilder('user')
       .where('user.no = :no', { no: userNo })
