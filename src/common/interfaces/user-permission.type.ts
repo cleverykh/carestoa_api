@@ -1,6 +1,0 @@
-export enum USER_PERMISSION {
-  'ADMIN_USER' = 'ADMIN_USER',
-  'NORMAR_USER' = 'NORMAR_USER',
-}
-
-export const CONST_USER_PERMISSION = Object.values(USER_PERMISSION);
