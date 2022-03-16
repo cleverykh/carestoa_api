@@ -1,6 +1,5 @@
-import { ApiParam, ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
-import { EXCHANGE_CODE } from 'src/common';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, Length, MinLength } from 'class-validator';
 import { BaseDto } from 'src/core';
 import { Exchange } from '../entities/exchange.entity';
 
@@ -16,7 +15,8 @@ export class CreateExchangeDto
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ description: '거래소코드', enum: EXCHANGE_CODE })
+  @ApiProperty({ description: '거래소코드' })
   @IsNotEmpty()
-  code: EXCHANGE_CODE;
+  @Length(3, 3)
+  code: string;
 }

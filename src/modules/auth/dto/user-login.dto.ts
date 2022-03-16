@@ -1,6 +1,6 @@
 import { BaseDto } from 'src/core/base.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsEmail, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsEmail, Length } from 'class-validator';
 import { User } from 'src/modules/users/entities/user.entity';
 
 export class UserLoginDto
@@ -18,7 +18,6 @@ export class UserLoginDto
 
   @ApiProperty({ description: '비밀번호' })
   @IsNotEmpty()
-  @MaxLength(12)
-  @MinLength(8)
+  @Length(8, 12)
   password: string;
 }

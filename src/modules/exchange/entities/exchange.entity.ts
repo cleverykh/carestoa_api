@@ -1,4 +1,3 @@
-import { EXCHANGE_CODE } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { Column, Entity } from 'typeorm';
 
@@ -16,5 +15,5 @@ export class Exchange extends BaseEntity<Exchange> {
     name: 'CODE',
     unique: true,
   })
-  code: EXCHANGE_CODE;
+  code: string;
 }
