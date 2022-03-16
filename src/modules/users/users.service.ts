@@ -39,6 +39,20 @@ export class UsersService {
     return user;
   }
 
+  /**
+   * email duplicate check
+   * @param email
+   */
+  async findOne(email: string): Promise<Object> {
+    const checkUser = await this.userRepo.findOne({
+      where: {
+        email,
+      },
+    });
+
+    return checkUser ? { result: false } : { result: true };
+  }
+
   async findOneForUser(userNo: number) {
     const qb = await this.userRepo
       .createQueryBuilder('user')

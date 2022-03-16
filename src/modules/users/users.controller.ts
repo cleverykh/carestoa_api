@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,21 +19,27 @@ import { User } from './entities/user.entity';
 import { AuthRolesGuard } from 'src/core/guards';
 
 @ApiTags('USER')
-@Controller()
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('user')
+  @Post()
   @ApiOperation({ summary: 'User 생성' })
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async userCreate(@Body() createUserDto: CreateUserDto): Promise<User> {
     return await this.usersService.create(createUserDto);
+  }
+
+  @Get('/email-check')
+  @ApiOperation({ summary: 'Email 체크' })
+  async emailCheck(@Query('email') email: string): Promise<Object> {
+    return await this.usersService.findOne(email);
   }
 
   @Get('user/me')
   @UseGuards(new AuthRolesGuard())
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
-  async findeMe(@Req() req) {
+  async myProfile(@Req() req) {
     return req.user;
   }
 
