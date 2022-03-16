@@ -9,6 +9,9 @@ async function bootstrap() {
   //Validation Pipe
   app.useGlobalPipes(new ValidationPipe());
 
+  //CORS
+  app.enableCors();
+
   //Swagger
   if (process.env.NODE_ENV !== 'production') {
     const options = new DocumentBuilder()
