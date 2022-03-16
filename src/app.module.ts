@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule, UsersModule } from './modules';
 import { AuthModule } from './modules/auth/auth.module';
+import { ExchangeModule } from './modules/exchange/exchange.module';
 
 const env = process.env;
 @Module({
@@ -27,6 +28,7 @@ const env = process.env;
     AuthModule,
     UsersModule,
     ProductsModule,
+    ExchangeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
