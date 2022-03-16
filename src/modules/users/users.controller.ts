@@ -35,7 +35,7 @@ export class UsersController {
     return await this.usersService.findOne(email);
   }
 
-  @Get('user/me')
+  @Get('/me')
   @UseGuards(new AuthRolesGuard())
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
