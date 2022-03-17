@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ExchangeService } from './exchange.service';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
-import { UpdateExchangeDto } from './dto/update-exchange.dto';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PaginatedResponse } from 'src/common';
+import { Exchange } from './entities/exchange.entity';
 
 @ApiTags('EXCHANGE')
 @Controller('exchange')
@@ -19,30 +12,13 @@ export class ExchangeController {
 
   @Post()
   @ApiOperation({ summary: '거래소 생성' })
-  create(@Body() createExchangeDto: CreateExchangeDto) {
+  async exchangeCreate(@Body() createExchangeDto: CreateExchangeDto) {
     return this.exchangeService.create(createExchangeDto);
   }
 
   @Get()
-  findAll() {
-    return this.exchangeService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.exchangeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateExchangeDto: UpdateExchangeDto,
-  ) {
-    return this.exchangeService.update(+id, updateExchangeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.exchangeService.remove(+id);
+  @ApiOperation({ summary: '거래소 조회' })
+  async exchangeInquiry(): Promise<PaginatedResponse<Exchange>> {
+    return await this.exchangeService.findAll();
   }
 }

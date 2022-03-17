@@ -4,23 +4,16 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Default } from '../decorators';
 
 export class PaginatedResponse<ENTITY> {
-  items: ENTITY[];
   totalCount: number;
+  items: ENTITY[];
 }
 
 export class PaginatedRequest {
-  @ApiPropertyOptional()
-  @Type(() => Number)
-  @Min(0)
-  @Max(100)
-  @Expose()
-  @Default(20)
+  @ApiPropertyOptional({ description: '총 몇개 데이터를 가져올 것인가(LIMIT)' })
   take?: number;
 
-  @ApiPropertyOptional()
-  @Type(() => Number)
-  @Min(0)
-  @Expose()
-  @Default(1)
+  @ApiPropertyOptional({
+    description: '페이지 단위(OFFSET) 계산법(take * (skip-1))',
+  })
   skip?: number;
 }

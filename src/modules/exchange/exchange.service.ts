@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginatedResponse } from 'src/common';
 import { Repository } from 'typeorm';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
-import { UpdateExchangeDto } from './dto/update-exchange.dto';
 import { Exchange } from './entities/exchange.entity';
 
 @Injectable()
@@ -16,22 +16,31 @@ export class ExchangeService {
    * @param createUserDto
    */
   async create(createExchangeDto: CreateExchangeDto) {
+    const checkExchangeCode = await this.exchangeRepo.findOne({
+      where: [
+        {
+          code: createExchangeDto.code,
+        },
+        {
+          name: createExchangeDto.name,
+        },
+      ],
+    });
+
+    if (checkExchangeCode) {
+      throw new BadRequestException({
+        message: 'Exchange code or name already exists.',
+      });
+    }
+
     return await this.exchangeRepo.save(new Exchange(createExchangeDto));
   }
 
-  findAll() {
-    return `This action returns all exchange`;
-  }
+  async findAll(): Promise<PaginatedResponse<Exchange>> {
+    const [items, totalCount] = await this.exchangeRepo
+      .createQueryBuilder('exchange')
+      .getManyAndCount();
 
-  findOne(id: number) {
-    return `This action returns a #${id} exchange`;
-  }
-
-  update(id: number, updateExchangeDto: UpdateExchangeDto) {
-    return `This action updates a #${id} exchange`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} exchange`;
+    return { totalCount, items };
   }
 }
