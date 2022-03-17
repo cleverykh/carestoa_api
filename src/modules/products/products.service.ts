@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PaginatedResponse } from 'src/common';
+import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepo: Repository<Product>,
+  ) {}
+  /**
+   * create product
+   * @param createProductDto
+   */
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const checkProductName = await this.productRepo.findOne({
+      where: {
+        name: createProductDto.name,
+      },
+    });
+
+    if (checkProductName) {
+      throw new BadRequestException({
+        message: 'Product name already exists.',
+      });
+    }
+
+    return await this.productRepo.save(new Product(createProductDto));
   }
 
-  findAll() {
-    return `This action returns all products`;
-  }
+  async findAll(): Promise<PaginatedResponse<Product>> {
+    const [items, totalCount] = await this.productRepo
+      .createQueryBuilder('product')
+      .getManyAndCount();
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+    return { totalCount, items };
   }
 }
