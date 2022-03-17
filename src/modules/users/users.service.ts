@@ -36,6 +36,9 @@ export class UsersService {
       createUserDto.password,
     );
     const user = await this.userRepo.save(new User(createUserDto));
+    //password value delete
+    delete user.password;
+
     return user;
   }
 
