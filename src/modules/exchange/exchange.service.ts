@@ -11,23 +11,20 @@ export class ExchangeService {
     @InjectRepository(Exchange)
     private readonly exchangeRepo: Repository<Exchange>,
   ) {}
+
   /**
-   * create user
-   * @param createUserDto
+   * create exchange
+   * @param createExchangeDto
    */
-  async create(createExchangeDto: CreateExchangeDto) {
-    const checkExchangeCode = await this.exchangeRepo.findOne({
+  async create(createExchangeDto: CreateExchangeDto): Promise<Exchange> {
+    const checkExist = await this.exchangeRepo.findOne({
       where: [
-        {
-          code: createExchangeDto.code,
-        },
-        {
-          name: createExchangeDto.name,
-        },
+        { code: createExchangeDto.code },
+        { name: createExchangeDto.name },
       ],
     });
 
-    if (checkExchangeCode) {
+    if (checkExist) {
       throw new BadRequestException({
         message: 'Exchange code or name already exists.',
       });

@@ -19,13 +19,13 @@ export class UsersService {
    * @param createUserDto
    */
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const checkUser = await this.userRepo.findOne({
+    const checkExist = await this.userRepo.findOne({
       where: {
         email: createUserDto.email,
       },
     });
 
-    if (checkUser) {
+    if (checkExist) {
       throw new BadRequestException({
         message: 'User already exists',
       });

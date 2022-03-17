@@ -16,13 +16,13 @@ export class ProductsService {
    * @param createProductDto
    */
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    const checkProductName = await this.productRepo.findOne({
+    const checkExist = await this.productRepo.findOne({
       where: {
         name: createProductDto.name,
       },
     });
 
-    if (checkProductName) {
+    if (checkExist) {
       throw new BadRequestException({
         message: 'Product name already exists.',
       });

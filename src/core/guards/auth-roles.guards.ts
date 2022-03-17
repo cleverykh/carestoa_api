@@ -19,7 +19,7 @@ export class AuthRolesGuard extends AuthGuard('jwt') {
       throw (
         err ||
         new UnauthorizedException({
-          message: '권한이 없습니다.',
+          message: `You don't have the authority.`,
           error: 401,
         })
       );
