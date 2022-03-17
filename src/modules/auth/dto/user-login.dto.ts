@@ -12,12 +12,8 @@ export class UserLoginDto
   }
 
   @ApiProperty({ description: '이메일' })
-  @IsNotEmpty()
-  @IsEmail()
   email: string;
 
   @ApiProperty({ description: '비밀번호' })
-  @IsNotEmpty()
-  @Length(8, 12)
   password: string;
 }

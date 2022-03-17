@@ -18,26 +18,18 @@ export class CreateUserDto
     super(partial);
   }
   @ApiProperty({ description: '이메일' })
-  @IsNotEmpty()
-  @IsEmail()
   email: string;
 
   @ApiProperty({ description: '비밀번호' })
-  @IsNotEmpty()
-  @MaxLength(12)
-  @MinLength(8)
   password: string;
 
   @ApiProperty({ description: '사용자이름' })
-  @IsNotEmpty()
   userName: string;
 
   @ApiProperty({ description: '생년월일' })
-  @IsNotEmpty()
   dateBirth: string;
 
   @ApiProperty({ description: '핸드폰번호' })
-  @IsNotEmpty()
   phoneNumber: string;
 
   @ApiProperty({
@@ -45,8 +37,6 @@ export class CreateUserDto
     default: FLAG_YN.NO,
     description: '회원가입약관',
   })
-  @IsNotEmpty()
-  @Contains('Y')
   serviceAgreement: FLAG_YN;
 
   @ApiProperty({
@@ -54,8 +44,6 @@ export class CreateUserDto
     default: FLAG_YN.NO,
     description: '개인정보이용약관',
   })
-  @IsNotEmpty()
-  @Contains('Y')
   privacyTerms: FLAG_YN;
 
   @ApiProperty({
@@ -63,8 +51,6 @@ export class CreateUserDto
     default: FLAG_YN.NO,
     description: '제3자정보제공동의',
   })
-  @IsNotEmpty()
-  @Contains('Y')
   provideInfoAgreement: FLAG_YN;
 
   @ApiProperty({
@@ -72,6 +58,5 @@ export class CreateUserDto
     default: FLAG_YN.NO,
     description: '마케팅수신이용약관',
   })
-  @IsNotEmpty()
   marketingTerms: FLAG_YN;
 }

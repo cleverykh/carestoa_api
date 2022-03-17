@@ -12,11 +12,8 @@ export class CreateExchangeDto
   }
 
   @ApiProperty({ description: '거래소명' })
-  @IsNotEmpty()
   name: string;
 
   @ApiProperty({ description: '거래소코드' })
-  @IsNotEmpty()
-  @Length(3, 3)
   code: string;
 }
