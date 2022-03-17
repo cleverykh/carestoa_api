@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { ProductsModule, UsersModule } from './modules';
 import { AuthModule } from './modules/auth/auth.module';
 import { ExchangeModule } from './modules/exchange/exchange.module';
+import { CryptocurrencyModule } from './modules/cryptocurrency/cryptocurrency.module';
 
 const env = process.env;
 @Module({
@@ -29,6 +30,7 @@ const env = process.env;
     UsersModule,
     ProductsModule,
     ExchangeModule,
+    CryptocurrencyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
