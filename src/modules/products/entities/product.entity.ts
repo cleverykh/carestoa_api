@@ -1,5 +1,5 @@
 import { PRODUCT_STATUS } from 'src/common';
-import { BaseEntity } from 'src/core/base.entity';
+import { BaseEntity } from 'src/core';
 import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'product' })
