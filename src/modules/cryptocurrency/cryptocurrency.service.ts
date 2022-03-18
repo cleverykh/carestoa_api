@@ -17,7 +17,7 @@ export class CryptocurrencyService {
    * create cryptocurrency
    * @param createCryptocurrencyDto
    */
-  async create(
+  async createForCryptocurrency(
     createCryptocurrencyDto: CreateCryptocurrencyDto,
   ): Promise<Cryptocurrency> {
     const checkExist = await this.cryptocurrencyRepo.findOne({
@@ -37,7 +37,7 @@ export class CryptocurrencyService {
     );
   }
 
-  async findAll(): Promise<PaginatedResponse<Cryptocurrency>> {
+  async findAllForCryptocurrency(): Promise<PaginatedResponse<Cryptocurrency>> {
     const [items, totalCount] = await this.cryptocurrencyRepo
       .createQueryBuilder('cryptocurrency')
       .getManyAndCount();

@@ -15,12 +15,14 @@ export class CryptocurrencyController {
   async cryptocurrencyCreate(
     @Body() createCryptocurrencyDto: CreateCryptocurrencyDto,
   ): Promise<Cryptocurrency> {
-    return await this.cryptocurrencyService.create(createCryptocurrencyDto);
+    return await this.cryptocurrencyService.createForCryptocurrency(
+      createCryptocurrencyDto,
+    );
   }
 
   @Get()
   @ApiOperation({ summary: '암호화폐 조회' })
   async cryptocurrencyInquiry(): Promise<PaginatedResponse<Cryptocurrency>> {
-    return await this.cryptocurrencyService.findAll();
+    return await this.cryptocurrencyService.findAllForCryptocurrency();
   }
 }

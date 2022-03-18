@@ -16,7 +16,9 @@ export class ExchangeService {
    * create exchange
    * @param createExchangeDto
    */
-  async create(createExchangeDto: CreateExchangeDto): Promise<Exchange> {
+  async createForExchange(
+    createExchangeDto: CreateExchangeDto,
+  ): Promise<Exchange> {
     const checkExist = await this.exchangeRepo.findOne({
       where: [
         { code: createExchangeDto.code },
@@ -33,7 +35,7 @@ export class ExchangeService {
     return await this.exchangeRepo.save(new Exchange(createExchangeDto));
   }
 
-  async findAll(): Promise<PaginatedResponse<Exchange>> {
+  async findAllForExchange(): Promise<PaginatedResponse<Exchange>> {
     const [items, totalCount] = await this.exchangeRepo
       .createQueryBuilder('exchange')
       .getManyAndCount();

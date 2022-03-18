@@ -15,12 +15,12 @@ export class ExchangeController {
   async exchangeCreate(
     @Body() createExchangeDto: CreateExchangeDto,
   ): Promise<Exchange> {
-    return await this.exchangeService.create(createExchangeDto);
+    return await this.exchangeService.createForExchange(createExchangeDto);
   }
 
   @Get()
   @ApiOperation({ summary: '거래소 조회' })
   async exchangeInquiry(): Promise<PaginatedResponse<Exchange>> {
-    return await this.exchangeService.findAll();
+    return await this.exchangeService.findAllForExchange();
   }
 }

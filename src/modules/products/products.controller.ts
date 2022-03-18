@@ -15,12 +15,12 @@ export class ProductsController {
   async productCreate(
     @Body() createProductDto: CreateProductDto,
   ): Promise<Product> {
-    return await this.productsService.create(createProductDto);
+    return await this.productsService.createForProduct(createProductDto);
   }
 
   @Get()
   @ApiOperation({ summary: '상품 조회' })
   async productInquiry(): Promise<PaginatedResponse<Product>> {
-    return await this.productsService.findAll();
+    return await this.productsService.findAllForProduct();
   }
 }

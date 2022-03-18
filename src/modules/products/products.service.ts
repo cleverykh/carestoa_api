@@ -15,7 +15,7 @@ export class ProductsService {
    * create product
    * @param createProductDto
    */
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async createForProduct(createProductDto: CreateProductDto): Promise<Product> {
     const checkExist = await this.productRepo.findOne({
       where: {
         name: createProductDto.name,
@@ -31,7 +31,7 @@ export class ProductsService {
     return await this.productRepo.save(new Product(createProductDto));
   }
 
-  async findAll(): Promise<PaginatedResponse<Product>> {
+  async findAllForProduct(): Promise<PaginatedResponse<Product>> {
     const [items, totalCount] = await this.productRepo
       .createQueryBuilder('product')
       .getManyAndCount();
