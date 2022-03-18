@@ -20,6 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: UserSigninPayload): Promise<any> {
     let user = await this.authService.validateUserById(payload._no);
     if (!user) throw new UnauthorizedException();
+    delete user.password;
     return user;
   }
 }
