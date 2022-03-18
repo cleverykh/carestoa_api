@@ -3,9 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseGuards,
   Req,
   Query,
@@ -26,21 +23,21 @@ export class UsersController {
   @Post()
   @ApiOperation({ summary: 'User 생성' })
   async userCreate(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.usersService.create(createUserDto);
+    return await this.usersService.createForUser(createUserDto);
   }
 
   @Get('/email-check')
   @ApiOperation({ summary: 'Email 체크' })
   async emailCheck(@Query('email') email: string): Promise<Object> {
-    return await this.usersService.findOne(email);
+    return await this.usersService.findOneforEmailCheck(email);
   }
 
   @Get('/me')
   @UseGuards(new AuthRolesGuard())
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
-  async myProfile(@Req() req) {
-    return req.user;
+  async myProfile(@Req() req): Promise<User> {
+    return await this.usersService.findOneforMyProfile(req);
   }
 
   //TODO : Admin 에서 사용자 정보 가져올 경우 구현

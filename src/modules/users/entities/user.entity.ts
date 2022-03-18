@@ -1,6 +1,7 @@
 import { FLAG_YN } from 'src/common/interfaces/flag-yn.type';
 import { BaseEntity } from 'src/core/base.entity';
-import { Column, Entity } from 'typeorm';
+import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity('user')
 export class User extends BaseEntity<User> {
@@ -58,4 +59,8 @@ export class User extends BaseEntity<User> {
     name: 'MARKETING_TERMS',
   })
   marketingTerms: FLAG_YN;
+
+  @ManyToMany(() => Exchange)
+  @JoinTable()
+  exchanges: Exchange[];
 }

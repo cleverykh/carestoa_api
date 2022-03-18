@@ -18,7 +18,7 @@ export class UsersService {
    * create user
    * @param createUserDto
    */
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async createForUser(createUserDto: CreateUserDto): Promise<User> {
     const checkExist = await this.userRepo.findOne({
       where: {
         email: createUserDto.email,
@@ -46,7 +46,7 @@ export class UsersService {
    * email duplicate check
    * @param email
    */
-  async findOne(email: string): Promise<Object> {
+  async findOneforEmailCheck(email: string): Promise<Object> {
     const checkUser = await this.userRepo.findOne({
       where: {
         email,
@@ -56,12 +56,16 @@ export class UsersService {
     return checkUser ? { result: false } : { result: true };
   }
 
-  async findOneForUser(userNo: number) {
-    const qb = await this.userRepo
-      .createQueryBuilder('user')
-      .where('user.no = :no', { no: userNo })
-      .getOne();
-    return qb;
+  async findOneforMyProfile(req): Promise<User> {
+    const user = await this.userRepo.findOne({
+      relations: ['exchanges'],
+      where: {
+        no: req.user.no,
+      },
+    });
+    if (user) delete user.password;
+
+    return user;
   }
 
   findAll() {
