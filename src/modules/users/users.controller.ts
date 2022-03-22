@@ -29,8 +29,8 @@ export class UsersController {
   @UseGuards(new AuthRolesGuard())
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
-  async myProfile(@UserInfo() user: User): Promise<User> {
-    return await this.usersService.findOneforMyProfile(user);
+  async myProfile(@UserInfo() userInfo: User): Promise<User> {
+    return await this.usersService.findOneforMyProfile(userInfo);
   }
 
   //TODO : Admin 에서 사용자 정보 가져올 경우 구현

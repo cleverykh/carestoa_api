@@ -60,11 +60,11 @@ export class UsersService {
     return checkUser ? { result: false } : { result: true };
   }
 
-  async findOneforMyProfile(userParam): Promise<User> {
+  async findOneforMyProfile(userInfo): Promise<User> {
     const user = await this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.contracts', 'contract')
-      .where('user.no = :userParam', { userParam: userParam.no })
+      .where('user.no = :userParam', { userParam: userInfo.no })
       .getOne();
 
     if (user) delete user.password;
