@@ -68,12 +68,12 @@ export class AuthService {
    * @param user
    * @param extend
    */
-  async jwtSign(user: User, extend?: any) {
+  async jwtSign(user: User, extend?: any): Promise<string> {
     const userSignInInfo: UserSigninPayload = {
       _no: user.no,
       _id: user.email,
       username: user.userName,
     };
-    return this.jwtService.sign({ ...userSignInInfo, ...extend });
+    return await this.jwtService.sign({ ...userSignInInfo, ...extend });
   }
 }

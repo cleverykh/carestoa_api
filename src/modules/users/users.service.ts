@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PasswordService } from '../auth/password.service';
@@ -12,13 +13,14 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     private readonly password: PasswordService,
+    private readonly jwtService: JwtService,
   ) {}
 
   /**
    * create user
    * @param createUserDto
    */
-  async createForUser(createUserDto: CreateUserDto): Promise<User> {
+  async createForUser(createUserDto: CreateUserDto): Promise<string> {
     const checkExist = await this.userRepo.findOne({
       where: {
         email: createUserDto.email,
@@ -36,10 +38,12 @@ export class UsersService {
       createUserDto.password,
     );
     const user = await this.userRepo.save(new User(createUserDto));
-    //password value delete
-    delete user.password;
 
-    return user;
+    return await this.jwtService.sign({
+      _no: user.no,
+      _id: user.email,
+      username: user.userName,
+    });
   }
 
   /**
@@ -57,12 +61,11 @@ export class UsersService {
   }
 
   async findOneforMyProfile(req): Promise<User> {
-    const user = await this.userRepo.findOne({
-      relations: ['exchanges'],
-      where: {
-        no: req.user.no,
-      },
-    });
+    const user = await this.userRepo
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.contracts', 'contract')
+      .getOne();
+
     if (user) delete user.password;
 
     return user;

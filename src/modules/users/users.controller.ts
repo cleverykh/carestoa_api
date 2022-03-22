@@ -22,7 +22,7 @@ export class UsersController {
 
   @Post()
   @ApiOperation({ summary: 'User 생성' })
-  async userCreate(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async userCreate(@Body() createUserDto: CreateUserDto): Promise<string> {
     return await this.usersService.createForUser(createUserDto);
   }
 
