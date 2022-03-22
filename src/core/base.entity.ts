@@ -1,6 +1,5 @@
 import {
   BaseEntity as TypeormBaseEntity,
-  Column,
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -41,22 +40,19 @@ export class BaseEntity<T> extends TypeormBaseEntity {
 
   @PrimaryGeneratedColumn({
     type: 'int',
-    name: 'NO',
     unsigned: true,
   })
   no: number;
 
   @CreateDateColumn({
     type: 'datetime',
-    name: 'CREATE_DATE',
     nullable: true,
   })
-  createDate: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'datetime',
-    name: 'UPDATE_DATE',
     nullable: true,
   })
-  updateDate: Date;
+  updatedAt: Date;
 }

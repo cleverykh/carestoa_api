@@ -5,14 +5,12 @@ import { Column, Entity } from 'typeorm';
 export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
   @Column({
     type: 'varchar',
-    name: 'NAME',
     unique: true,
   })
   name: string;
 
   @Column({
     type: 'varchar',
-    name: 'CODE',
     unique: true,
   })
   code: string;
