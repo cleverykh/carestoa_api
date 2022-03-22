@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UseGuards,
-  Req,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,6 +6,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 // import { CONST_USER_PERMISSION } from 'src/common';
 import { AuthRolesGuard } from 'src/core/guards';
+import { UserInfo } from 'src/common/decorators';
 
 @ApiTags('USER')
 @Controller('user')
@@ -36,8 +29,8 @@ export class UsersController {
   @UseGuards(new AuthRolesGuard())
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiBearerAuth()
-  async myProfile(@Req() req): Promise<User> {
-    return await this.usersService.findOneforMyProfile(req);
+  async myProfile(@UserInfo() user: User): Promise<User> {
+    return await this.usersService.findOneforMyProfile(user);
   }
 
   //TODO : Admin 에서 사용자 정보 가져올 경우 구현
