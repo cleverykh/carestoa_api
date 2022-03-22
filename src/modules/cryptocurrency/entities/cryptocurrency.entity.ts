@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/core';
-import { Column, Entity } from 'typeorm';
+import { Contract } from 'src/modules/contract/entities/contract.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'cryptocurrency' })
 export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
@@ -14,4 +15,7 @@ export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
     unique: true,
   })
   code: string;
+
+  @OneToMany(() => Contract, (contract) => contract.cryptocurrency)
+  contracts: Contract[];
 }

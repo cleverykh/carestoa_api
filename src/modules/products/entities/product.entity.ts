@@ -1,11 +1,13 @@
 import { PRODUCT_STATUS } from 'src/common';
 import { BaseEntity } from 'src/core';
-import { Column, Entity } from 'typeorm';
+import { Contract } from 'src/modules/contract/entities/contract.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity<Product> {
   @Column({
     type: 'varchar',
+    default: PRODUCT_STATUS.RECRUITMENT,
   })
   status: PRODUCT_STATUS;
 
@@ -14,4 +16,7 @@ export class Product extends BaseEntity<Product> {
     unique: true,
   })
   name: string;
+
+  @OneToMany(() => Contract, (contract) => contract.product)
+  contracts: Contract[];
 }

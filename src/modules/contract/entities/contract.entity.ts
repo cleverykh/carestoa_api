@@ -1,6 +1,10 @@
 import { CONTRACT_STATUS } from 'src/common';
 import { BaseEntity } from 'src/core';
-import { Column, Entity } from 'typeorm';
+import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
+import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
+import { Product } from 'src/modules/products/entities/product.entity';
+import { User } from 'src/modules/users/entities/user.entity';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'contract' })
 export class Contract extends BaseEntity<Contract> {
@@ -11,7 +15,7 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'varchar',
-    default: CONTRACT_STATUS.NORMAR,
+    default: CONTRACT_STATUS.PREPARATION,
   })
   contractStatus: CONTRACT_STATUS;
 
@@ -28,6 +32,12 @@ export class Contract extends BaseEntity<Contract> {
   productNo: number;
 
   @Column({
+    type: 'int',
+    unsigned: true,
+  })
+  cryptocurrencyNo: number;
+
+  @Column({
     type: 'datetime',
   })
   contractStartDate: Date;
@@ -36,11 +46,6 @@ export class Contract extends BaseEntity<Contract> {
     type: 'datetime',
   })
   contractEndDate: Date;
-
-  @Column({
-    type: 'varchar',
-  })
-  cryptocurrencyCode: string;
 
   @Column({
     type: 'decimal',
@@ -75,4 +80,17 @@ export class Contract extends BaseEntity<Contract> {
     type: 'varchar',
   })
   sign: string;
+
+  @ManyToOne(() => User, (user) => user.contracts)
+  user: User;
+
+  @ManyToOne(() => Product, (product) => product.contracts)
+  product: Product;
+
+  @ManyToOne(() => Cryptocurrency, (cryptocurrency) => cryptocurrency.contracts)
+  cryptocurrency: Cryptocurrency;
+
+  @ManyToMany(() => Exchange)
+  @JoinTable()
+  exchanges: Exchange[];
 }

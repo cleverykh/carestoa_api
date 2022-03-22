@@ -40,6 +40,7 @@ export enum PRODUCT_STATUS {
 
 //Contract status
 export enum CONTRACT_STATUS {
+  'PREPARATION' = 'PREPARATION',
   'NORMAR' = 'NORMAR',
   'CANCELLATION' = 'CANCELLATION',
   'CLOSE' = 'CLOSE',

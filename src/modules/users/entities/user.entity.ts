@@ -1,6 +1,7 @@
 import { FLAG_YN } from 'src/common/interfaces/flag-yn.type';
 import { BaseEntity } from 'src/core/base.entity';
-import { Column, Entity } from 'typeorm';
+import { Contract } from 'src/modules/contract/entities/contract.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('user')
 export class User extends BaseEntity<User> {
@@ -49,4 +50,7 @@ export class User extends BaseEntity<User> {
     type: 'varchar',
   })
   marketingTerms: FLAG_YN;
+
+  @OneToMany(() => Contract, (contract) => contract.user)
+  contracts: Contract[];
 }
