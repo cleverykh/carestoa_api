@@ -4,7 +4,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-// import { CONST_USER_PERMISSION } from 'src/common';
 import { AuthRolesGuard } from 'src/core/guards';
 import { UserInfo } from 'src/common/decorators';
 

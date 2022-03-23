@@ -24,12 +24,18 @@ export enum CRYPTOCURRENCY_CODE {
   'KLAYSWAP' = 'KSP',
 }
 
-//User Authority
-export enum USER_PERMISSION {
-  'ADMIN_USER' = 'ADMIN_USER',
+//User Roles
+export enum USER_ROLES {
   'NORMAL_USER' = 'NORMAL_USER',
 }
-export const CONST_USER_PERMISSION = Object.values(USER_PERMISSION);
+export const CONST_USER_ROLES = Object.values(USER_ROLES);
+
+//Admin Roles
+export enum ADMIN_ROLES {
+  'NORMAL_ADMIN' = 'NORMAL_ADMIN',
+  'SUPER_ADMIN' = 'SUPER_ADMIN',
+}
+export const CONST_ADMIN_ROLES = Object.values(ADMIN_ROLES);
 
 //Product status
 export enum PRODUCT_STATUS {

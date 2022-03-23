@@ -5,11 +5,11 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
-import { USER_PERMISSION } from '../../common';
+import { ADMIN_ROLES, USER_ROLES } from '../../common';
 @Injectable()
 export class AuthRolesGuard extends AuthGuard('jwt') {
-  readonly roles: USER_PERMISSION[];
-  constructor(...roles: USER_PERMISSION[]) {
+  readonly roles: (ADMIN_ROLES | USER_ROLES)[];
+  constructor(...roles: (ADMIN_ROLES | USER_ROLES)[]) {
     super();
     this.roles = roles;
   }
