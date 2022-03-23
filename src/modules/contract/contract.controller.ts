@@ -35,6 +35,17 @@ export class ContractController {
     );
   }
 
+  @Patch(':id')
+  @ApiOperation({ summary: '계약 생성' })
+  @UseGuards(new AuthRolesGuard())
+  @ApiBearerAuth()
+  async contractUpdate(
+    @Param('id') id: string,
+    @Body() updateContractDto: UpdateContractDto,
+  ) {
+    return this.contractService.update(+id, updateContractDto);
+  }
+
   @Get()
   findAll() {
     return this.contractService.findAll();
@@ -43,14 +54,6 @@ export class ContractController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contractService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateContractDto: UpdateContractDto,
-  ) {
-    return this.contractService.update(+id, updateContractDto);
   }
 
   @Delete(':id')

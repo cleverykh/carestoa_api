@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Exchange } from '../exchange/entities/exchange.entity';
@@ -18,13 +18,30 @@ export class ContractService {
     private readonly exchangeRepo: Repository<Exchange>,
   ) {}
 
+  /**
+   * create contract
+   * @param createContractDto
+   */
   async createForContract(
     userInfo: User,
     createContractDto: CreateContractDto,
   ): Promise<Contract> {
-    // const user = await this.userRepo.findOne({ where: { no: userInfo.no } });
+    const checkExist = await this.contractRepo.findOne({
+      where: {
+        userNo: userInfo.no,
+        productNo: createContractDto.productNo,
+      },
+    });
+
+    if (checkExist) {
+      throw new BadRequestException({
+        message: 'Already subscribed to this product',
+      });
+    }
+
     const exchangesNoArr: any = [];
     let exchanges: Exchange[] = [];
+
     createContractDto.exchanges.map((val) => {
       exchangesNoArr.push({ no: val });
     });
