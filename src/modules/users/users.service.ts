@@ -64,6 +64,8 @@ export class UsersService {
     const user = await this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.contracts', 'contract')
+      .leftJoinAndSelect('contract.product', 'product')
+      .leftJoinAndSelect('contract.cryptocurrency', 'cryptocurrency')
       .where('user.no = :userParam', { userParam: userInfo.no })
       .getOne();
 
