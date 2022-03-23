@@ -11,7 +11,7 @@ export class CreateContractDto
     super(partial);
   }
 
-  @ApiProperty({ description: '코인 송금 확인 된 datetime', default: '' })
+  @ApiProperty({ description: '코인 송금 확인 된 datetime', default: null })
   joinDate: Date;
 
   @ApiProperty({
@@ -20,10 +20,10 @@ export class CreateContractDto
   })
   contractStatus: CONTRACT_STATUS;
 
-  @ApiProperty({ description: '계약한 상품' })
+  @ApiProperty({ description: '계약한 상품종류', default: null })
   productNo: number;
 
-  @ApiProperty({ description: '계약한 상품의 납부 코인' })
+  @ApiProperty({ description: '계약한 상품의 납부할 코인종류', default: null })
   cryptocurrencyNo: number;
 
   @ApiProperty({ description: '계약 시작일' })
@@ -50,6 +50,10 @@ export class CreateContractDto
   @ApiProperty({ description: '사인 값' })
   sign: string;
 
-  @ApiProperty({ description: '거래소 No to Array', type: [Number] })
+  @ApiProperty({
+    description: '거래소 No to Array',
+    type: [Number],
+    default: [],
+  })
   exchanges: Exchange[];
 }

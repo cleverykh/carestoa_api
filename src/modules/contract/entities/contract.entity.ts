@@ -30,6 +30,7 @@ export class Contract extends BaseEntity<Contract> {
     type: 'int',
     unsigned: true,
     nullable: true,
+    default: null,
   })
   productNo: number;
 
@@ -37,6 +38,7 @@ export class Contract extends BaseEntity<Contract> {
     type: 'int',
     unsigned: true,
     nullable: true,
+    default: null,
   })
   cryptocurrencyNo: number;
 
