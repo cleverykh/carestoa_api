@@ -27,7 +27,7 @@ export enum CRYPTOCURRENCY_CODE {
 //User Authority
 export enum USER_PERMISSION {
   'ADMIN_USER' = 'ADMIN_USER',
-  'NORMAR_USER' = 'NORMAR_USER',
+  'NORMAL_USER' = 'NORMAL_USER',
 }
 export const CONST_USER_PERMISSION = Object.values(USER_PERMISSION);
 
@@ -41,7 +41,7 @@ export enum PRODUCT_STATUS {
 //Contract status
 export enum CONTRACT_STATUS {
   'PREPARATION' = 'PREPARATION',
-  'NORMAR' = 'NORMAR',
+  'NORMAL' = 'NORMAL',
   'CANCELLATION' = 'CANCELLATION',
   'CLOSE' = 'CLOSE',
 }
