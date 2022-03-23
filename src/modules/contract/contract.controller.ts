@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserInfo } from 'src/common/decorators';
 import { AuthRolesGuard } from 'src/core';
 import { User } from '../users/entities/user.entity';
@@ -22,6 +22,7 @@ export class ContractController {
   constructor(private readonly contractService: ContractService) {}
 
   @Post()
+  @ApiOperation({ summary: '계약 생성' })
   @UseGuards(new AuthRolesGuard())
   @ApiBearerAuth()
   async contractCreate(
