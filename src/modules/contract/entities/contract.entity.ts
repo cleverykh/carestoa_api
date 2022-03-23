@@ -10,6 +10,7 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'datetime',
+    nullable: true,
   })
   joinDate: Date;
 
@@ -28,12 +29,14 @@ export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'int',
     unsigned: true,
+    nullable: true,
   })
   productNo: number;
 
   @Column({
     type: 'int',
     unsigned: true,
+    nullable: true,
   })
   cryptocurrencyNo: number;
 

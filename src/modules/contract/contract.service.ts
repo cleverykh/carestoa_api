@@ -1,11 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Exchange } from '../exchange/entities/exchange.entity';
+import { User } from '../users/entities/user.entity';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
+import { Contract } from './entities/contract.entity';
 
 @Injectable()
 export class ContractService {
-  create(createContractDto: CreateContractDto) {
-    return 'This action adds a new contract';
+  constructor(
+    @InjectRepository(Contract)
+    private readonly contractRepo: Repository<Contract>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
+    @InjectRepository(Exchange)
+    private readonly exchangeRepo: Repository<Exchange>,
+  ) {}
+
+  async createForContract(
+    userInfo: User,
+    createContractDto: CreateContractDto,
+  ): Promise<Contract> {
+    // const user = await this.userRepo.findOne({ where: { no: userInfo.no } });
+    const exchangesNoArr = [];
+    createContractDto.exchanges.map((val) => {
+      exchangesNoArr.push({ no: val });
+    });
+
+    const exchanges = await this.exchangeRepo.find({
+      where: exchangesNoArr,
+    });
+    const contract = await this.contractRepo.create({
+      ...createContractDto,
+      user: userInfo,
+      exchanges,
+    });
+
+    return await this.contractRepo.save(contract);
   }
 
   findAll() {
