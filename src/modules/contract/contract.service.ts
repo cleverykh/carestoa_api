@@ -23,18 +23,21 @@ export class ContractService {
     createContractDto: CreateContractDto,
   ): Promise<Contract> {
     // const user = await this.userRepo.findOne({ where: { no: userInfo.no } });
-    const exchangesNoArr = [];
+    const exchangesNoArr: any = [];
+    let exchanges: Exchange[] = [];
     createContractDto.exchanges.map((val) => {
       exchangesNoArr.push({ no: val });
     });
 
-    const exchanges = await this.exchangeRepo.find({
-      where: exchangesNoArr,
-    });
+    if (exchangesNoArr) {
+      exchanges = await this.exchangeRepo.find({
+        where: exchangesNoArr,
+      });
+    }
     const contract = await this.contractRepo.create({
       ...createContractDto,
       user: userInfo,
-      exchanges,
+      ...exchanges,
     });
 
     return await this.contractRepo.save(contract);
