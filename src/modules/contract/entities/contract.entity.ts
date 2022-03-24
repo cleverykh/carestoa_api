@@ -10,24 +10,28 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'datetime',
+    name: 'join_date',
     nullable: true,
   })
   joinDate: Date;
 
   @Column({
     type: 'varchar',
+    name: 'contract_status',
     default: CONTRACT_STATUS.PREPARATION,
   })
   contractStatus: CONTRACT_STATUS;
 
   @Column({
     type: 'int',
+    name: 'user_no',
     unsigned: true,
   })
   userNo: number;
 
   @Column({
     type: 'int',
+    name: 'product_no',
     unsigned: true,
     nullable: true,
     default: null,
@@ -36,6 +40,7 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'int',
+    name: 'cryptocurrency_no',
     unsigned: true,
     nullable: true,
     default: null,
@@ -44,16 +49,19 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'datetime',
+    name: 'contract_start_date',
   })
   contractStartDate: Date;
 
   @Column({
     type: 'datetime',
+    name: 'contract_end_date',
   })
   contractEndDate: Date;
 
   @Column({
     type: 'decimal',
+    name: 'contract_amount',
     precision: 27,
     scale: 18,
   })
@@ -61,16 +69,19 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'varchar',
+    name: 'deposit_address',
   })
   depositAddress: string;
 
   @Column({
     type: 'datetime',
+    name: 'deposit_valid_date',
   })
   depositValidDate: Date;
 
   @Column({
     type: 'varchar',
+    name: 'destination_tag',
   })
   destinationTag: string;
 
