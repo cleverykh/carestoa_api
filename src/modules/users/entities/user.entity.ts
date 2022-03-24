@@ -58,6 +58,6 @@ export class User extends BaseEntity<User> {
   })
   marketingTerms: FLAG_YN;
 
-  @OneToMany(() => Contract, (contract) => contract.user)
+  @OneToMany((type) => Contract, (contract) => contract.user)
   contracts: Contract[];
 }

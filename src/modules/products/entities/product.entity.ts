@@ -17,6 +17,6 @@ export class Product extends BaseEntity<Product> {
   })
   name: string;
 
-  @OneToMany(() => Contract, (contract) => contract.product)
+  @OneToMany((type) => Contract, (contract) => contract.product)
   contracts: Contract[];
 }

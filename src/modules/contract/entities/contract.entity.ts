@@ -1,10 +1,10 @@
 import { CONTRACT_STATUS } from 'src/common';
 import { BaseEntity } from 'src/core';
+import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
-import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'contract' })
 export class Contract extends BaseEntity<Contract> {
@@ -97,16 +97,33 @@ export class Contract extends BaseEntity<Contract> {
   })
   sign: string;
 
-  @ManyToOne(() => User, (user) => user.contracts)
+  @ManyToOne((type) => User, (user) => user.contracts)
+  @JoinColumn({
+    name: 'user_no',
+    referencedColumnName: 'no',
+  })
   user: User;
 
-  @ManyToOne(() => Product, (product) => product.contracts)
+  @ManyToOne((type) => Product, (product) => product.contracts)
+  @JoinColumn({
+    name: 'product_no',
+    referencedColumnName: 'no',
+  })
   product: Product;
 
-  @ManyToOne(() => Cryptocurrency, (cryptocurrency) => cryptocurrency.contracts)
+  @ManyToOne(
+    (type) => Cryptocurrency,
+    (cryptocurrency) => cryptocurrency.contracts,
+  )
+  @JoinColumn({
+    name: 'cryptocurrency_no',
+    referencedColumnName: 'no',
+  })
   cryptocurrency: Cryptocurrency;
 
-  @ManyToMany(() => Exchange)
-  @JoinTable()
-  exchanges: Exchange[];
+  @OneToMany(
+    (type) => ContractExchangeMapper,
+    (contractExchangeMapper) => contractExchangeMapper.contract,
+  )
+  contractExchangeMapper: ContractExchangeMapper[];
 }

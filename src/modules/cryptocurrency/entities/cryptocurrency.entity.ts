@@ -16,6 +16,6 @@ export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
   })
   code: string;
 
-  @OneToMany(() => Contract, (contract) => contract.cryptocurrency)
+  @OneToMany((type) => Contract, (contract) => contract.cryptocurrency)
   contracts: Contract[];
 }
