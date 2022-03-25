@@ -19,17 +19,25 @@ export class ContractExchangeMapper extends BaseEntity<ContractExchangeMapper> {
   })
   exchangeNo: number;
 
-  @ManyToOne(() => Contract, (contract) => contract.contractExchangeMapper)
+  @ManyToOne(
+    (type) => Contract,
+    (contract) => contract.contractExchangeMappers,
+    { primary: true },
+  )
   @JoinColumn({
     name: 'contract_no',
     referencedColumnName: 'no',
   })
-  public contract: Contract;
+  contract: Contract;
 
-  @ManyToOne(() => Exchange, (exchange) => exchange.contractExchangeMapper)
+  @ManyToOne(
+    (type) => Exchange,
+    (exchange) => exchange.contractExchangeMappers,
+    { primary: true },
+  )
   @JoinColumn({
     name: 'exchange_no',
     referencedColumnName: 'no',
   })
-  public exchange: Exchange;
+  exchange: Exchange;
 }

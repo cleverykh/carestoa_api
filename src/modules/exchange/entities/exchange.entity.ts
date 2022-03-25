@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/core';
 import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'exchange' })
 export class Exchange extends BaseEntity<Exchange> {
@@ -23,5 +23,8 @@ export class Exchange extends BaseEntity<Exchange> {
     (type) => ContractExchangeMapper,
     (contractExchangeMapper) => contractExchangeMapper.exchange,
   )
-  contractExchangeMapper: ContractExchangeMapper[];
+  contractExchangeMappers: ContractExchangeMapper[];
+
+  @ManyToOne((type) => Contract, (contract) => contract.exchanges)
+  contract: Contract;
 }

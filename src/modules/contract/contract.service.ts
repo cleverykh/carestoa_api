@@ -26,35 +26,40 @@ export class ContractService {
     userInfo: User,
     createContractDto: CreateContractDto,
   ): Promise<Contract> {
-    const checkExist = await this.contractRepo.findOne({
-      where: {
-        userNo: userInfo.no,
-        productNo: createContractDto.productNo,
-      },
-    });
-
-    if (checkExist) {
-      throw new BadRequestException({
-        message: 'Already subscribed to this product',
+    // 상품 중복 체크
+    if (createContractDto.productNo) {
+      const checkExist = await this.contractRepo.findOne({
+        where: {
+          userNo: userInfo.no,
+          productNo: createContractDto.productNo,
+        },
       });
+
+      if (checkExist) {
+        throw new BadRequestException({
+          message: 'Already subscribed to this product',
+        });
+      }
     }
 
+    //거래소 객체 생성
     const exchangesNoArr: any = [];
     let exchanges: Exchange[] = [];
+    if (createContractDto.exchanges.length > 0) {
+      createContractDto.exchanges.map((val) => {
+        exchangesNoArr.push({ no: val });
+      });
 
-    createContractDto.exchanges.map((val) => {
-      exchangesNoArr.push({ no: val });
-    });
-
-    if (exchangesNoArr) {
       exchanges = await this.exchangeRepo.find({
         where: exchangesNoArr,
       });
     }
+
+    //계약서 생성
     const contract = await this.contractRepo.create({
-      ...createContractDto,
-      user: userInfo,
-      ...exchanges,
+      ...createContractDto, //계약서
+      user: userInfo, //사용자
+      ...exchanges, //거래소
     });
 
     return await this.contractRepo.save(contract);
