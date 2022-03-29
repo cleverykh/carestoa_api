@@ -1,6 +1,5 @@
 import { BaseDto } from 'src/core/base.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsEmail, Length } from 'class-validator';
 import { User } from 'src/modules/users/entities/user.entity';
 
 export class UserLoginDto

@@ -1,11 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Contains,
-  IsEmail,
-  IsNotEmpty,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
 import { FLAG_YN } from 'src/common';
 import { BaseDto } from 'src/core/base.dto';
 import { User } from '../entities/user.entity';

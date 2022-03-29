@@ -1,5 +1,4 @@
 import { BaseEntity } from 'src/core';
-import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
@@ -16,8 +15,6 @@ export class Exchange extends BaseEntity<Exchange> {
     unique: true,
   })
   code: string;
-
-  contracts: Contract[];
 
   @OneToMany(
     (type) => ContractExchangeMapper,

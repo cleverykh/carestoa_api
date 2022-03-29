@@ -1,7 +1,4 @@
-import { Min, Max } from 'class-validator';
-import { Type, Expose } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Default } from '../decorators';
 
 export class PaginatedResponse<ENTITY> {
   totalCount: number;
