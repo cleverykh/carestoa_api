@@ -37,24 +37,28 @@ export class User extends BaseEntity<User> {
   @Column({
     type: 'varchar',
     name: 'service_agreement',
+    default: FLAG_YN.NO,
   })
   serviceAgreement: FLAG_YN;
 
   @Column({
     type: 'varchar',
     name: 'privacy_terms',
+    default: FLAG_YN.NO,
   })
   privacyTerms: FLAG_YN;
 
   @Column({
     type: 'varchar',
     name: 'provide_info_agreement',
+    default: FLAG_YN.NO,
   })
   provideInfoAgreement: FLAG_YN;
 
   @Column({
     type: 'varchar',
     name: 'marketing_terms',
+    default: FLAG_YN.NO,
   })
   marketingTerms: FLAG_YN;
 
