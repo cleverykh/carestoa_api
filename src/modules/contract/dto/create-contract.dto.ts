@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CONTRACT_STATUS } from 'src/common';
+import { CONTRACT_STATUS, FLAG_YN } from 'src/common';
 import { BaseDto } from 'src/core';
 import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
 
@@ -46,6 +46,13 @@ export class CreateContractDto
 
   @ApiProperty({ description: '보상 금액' })
   compensation: number;
+
+  @ApiProperty({
+    enum: FLAG_YN,
+    default: FLAG_YN.NO,
+    description: '상품 약관동의',
+  })
+  productAgreement: FLAG_YN;
 
   @ApiProperty({ description: '사인 값' })
   sign: string;

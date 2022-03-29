@@ -1,4 +1,4 @@
-import { CONTRACT_STATUS } from 'src/common';
+import { CONTRACT_STATUS, FLAG_YN } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
@@ -91,6 +91,13 @@ export class Contract extends BaseEntity<Contract> {
     scale: 18,
   })
   compensation: number;
+
+  @Column({
+    type: 'varchar',
+    name: 'product_agreement',
+    default: FLAG_YN.NO,
+  })
+  productAgreement: FLAG_YN;
 
   @Column({
     type: 'varchar',
