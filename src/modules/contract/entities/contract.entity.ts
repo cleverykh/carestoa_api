@@ -2,7 +2,6 @@ import { CONTRACT_STATUS } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
-import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
@@ -125,9 +124,7 @@ export class Contract extends BaseEntity<Contract> {
   @OneToMany(
     (type) => ContractExchangeMapper,
     (contractExchangeMapper) => contractExchangeMapper.contract,
+    { cascade: true },
   )
   contractExchangeMappers: ContractExchangeMapper[];
-
-  @OneToMany((type) => Exchange, (exchange) => exchange.contract)
-  exchanges: Exchange[];
 }

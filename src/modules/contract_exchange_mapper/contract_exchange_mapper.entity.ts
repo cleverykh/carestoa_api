@@ -30,11 +30,7 @@ export class ContractExchangeMapper extends BaseEntity<ContractExchangeMapper> {
   })
   contract: Contract;
 
-  @ManyToOne(
-    (type) => Exchange,
-    (exchange) => exchange.contractExchangeMappers,
-    { primary: true },
-  )
+  @ManyToOne((type) => Exchange, (exchange) => exchange.contractExchangeMappers)
   @JoinColumn({
     name: 'exchange_no',
     referencedColumnName: 'no',

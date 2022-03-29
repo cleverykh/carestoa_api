@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Exchange } from '../exchange/entities/exchange.entity';
 import { User } from '../users/entities/user.entity';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
@@ -12,10 +11,6 @@ export class ContractService {
   constructor(
     @InjectRepository(Contract)
     private readonly contractRepo: Repository<Contract>,
-    @InjectRepository(User)
-    private readonly userRepo: Repository<User>,
-    @InjectRepository(Exchange)
-    private readonly exchangeRepo: Repository<Exchange>,
   ) {}
 
   /**
@@ -42,24 +37,19 @@ export class ContractService {
       }
     }
 
-    //거래소 객체 생성
-    const exchangesNoArr: any = [];
-    let exchanges: Exchange[] = [];
+    //exchange mapper object create
+    const contractExchangeMapperNumberArray: any = [];
     if (createContractDto.exchanges.length > 0) {
       createContractDto.exchanges.map((val) => {
-        exchangesNoArr.push({ no: val });
-      });
-
-      exchanges = await this.exchangeRepo.find({
-        where: exchangesNoArr,
+        contractExchangeMapperNumberArray.push({ exchangeNo: val });
       });
     }
 
-    //계약서 생성
+    //contract create
     const contract = await this.contractRepo.create({
-      ...createContractDto, //계약서
-      user: userInfo, //사용자
-      ...exchanges, //거래소
+      ...createContractDto,
+      user: userInfo,
+      contractExchangeMappers: contractExchangeMapperNumberArray,
     });
 
     return await this.contractRepo.save(contract);
