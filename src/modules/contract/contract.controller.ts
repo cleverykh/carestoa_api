@@ -9,8 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
 import { UserInfo } from 'src/common/decorators';
-import { AuthRolesGuard } from 'src/core';
+import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
+import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
+import { AuthRolesGuard, CallHttpService } from 'src/core';
 import { User } from '../users/entities/user.entity';
 import { ContractService } from './contract.service';
 import { CreateContractDto } from './dto/create-contract.dto';
@@ -19,7 +23,10 @@ import { Contract } from './entities/contract.entity';
 @ApiTags('CONTRACT')
 @Controller('contract')
 export class ContractController {
-  constructor(private readonly contractService: ContractService) {}
+  constructor(
+    private readonly contractService: ContractService,
+    private readonly callHttpService: CallHttpService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: '계약 생성' })
@@ -36,14 +43,28 @@ export class ContractController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: '계약 생성' })
+  @ApiOperation({ summary: '계약 수정' })
   @UseGuards(new AuthRolesGuard())
   @ApiBearerAuth()
   async contractUpdate(
     @Param('id') id: string,
     @Body() updateContractDto: UpdateContractDto,
   ) {
-    return this.contractService.update(+id, updateContractDto);
+    return await this.contractService.update(+id, updateContractDto);
+  }
+
+  @Get('ticker/:symbol/:currency/:limit')
+  @ApiOperation({ summary: 'BINANCE 암호화폐별 거래 시세 가져오기' })
+  httpCall(
+    @Param('symbol') symbol: string,
+    @Param('currency') currency: string,
+    @Param('limit') limit: string,
+  ): Observable<AxiosResponse<BinanceReturn[]>> {
+    const binanceTickerAPI = `${
+      SYMBOL_TICKER_URL.BINANCE_DOMAIN
+    }symbol=${symbol.toUpperCase()}${currency.toUpperCase()}&limit=${limit}`;
+
+    return this.callHttpService.callHttp(binanceTickerAPI);
   }
 
   @Get()
