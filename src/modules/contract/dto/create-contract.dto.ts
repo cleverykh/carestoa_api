@@ -26,25 +26,25 @@ export class CreateContractDto
   @ApiProperty({ description: '계약한 상품의 납부할 코인종류', default: null })
   cryptocurrencyNo: number;
 
-  @ApiProperty({ description: '계약 시작일' })
+  @ApiProperty({ description: '계약 시작일', default: null })
   contractStartDate: Date;
 
-  @ApiProperty({ description: '계약 종료일' })
+  @ApiProperty({ description: '계약 종료일', default: null })
   contractEndDate: Date;
 
   @ApiProperty({ description: '코인 송금 금액' })
   contractAmount: number;
 
-  @ApiProperty({ description: 'Deposit Address' })
+  @ApiProperty({ description: 'Deposit Address', default: null })
   depositAddress: string;
 
   @ApiProperty({ description: 'Deposit issue datetime', default: null })
   depositIssueDate: Date;
 
-  @ApiProperty({ description: 'Destination Tag' })
+  @ApiProperty({ description: 'Destination Tag', default: null })
   destinationTag: string;
 
-  @ApiProperty({ description: '보상 금액' })
+  @ApiProperty({ description: '보상 금액', default: null })
   compensation: number;
 
   @ApiProperty({
@@ -54,7 +54,7 @@ export class CreateContractDto
   })
   productAgreement: FLAG_YN;
 
-  @ApiProperty({ description: '사인 값' })
+  @ApiProperty({ description: '사인 값', default: null })
   sign: string;
 
   @ApiProperty({

@@ -12,6 +12,7 @@ export class Contract extends BaseEntity<Contract> {
     type: 'datetime',
     name: 'join_date',
     nullable: true,
+    default: null,
   })
   joinDate: Date;
 
@@ -50,12 +51,16 @@ export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'datetime',
     name: 'contract_start_date',
+    nullable: true,
+    default: null,
   })
   contractStartDate: Date;
 
   @Column({
     type: 'datetime',
     name: 'contract_end_date',
+    nullable: true,
+    default: null,
   })
   contractEndDate: Date;
 
@@ -70,6 +75,8 @@ export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'varchar',
     name: 'deposit_address',
+    nullable: true,
+    default: null,
   })
   depositAddress: string;
 
@@ -83,6 +90,8 @@ export class Contract extends BaseEntity<Contract> {
   @Column({
     type: 'varchar',
     name: 'destination_tag',
+    nullable: true,
+    default: null,
   })
   destinationTag: string;
 
@@ -90,6 +99,7 @@ export class Contract extends BaseEntity<Contract> {
     type: 'decimal',
     precision: 27,
     scale: 18,
+    nullable: true,
   })
   compensation: number;
 
@@ -102,6 +112,7 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'varchar',
+    default: null,
   })
   sign: string;
 
