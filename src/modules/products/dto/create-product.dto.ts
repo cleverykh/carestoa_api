@@ -12,4 +12,7 @@ export class CreateProductDto extends BaseDto<CreateProductDto> {
 
   @ApiProperty({ description: '상품명' })
   name: string;
+
+  @ApiProperty({ description: '상품 가입 비' })
+  productFee: string;
 }

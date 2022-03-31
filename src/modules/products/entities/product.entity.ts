@@ -17,6 +17,12 @@ export class Product extends BaseEntity<Product> {
   })
   name: string;
 
+  @Column({
+    type: 'varchar',
+    name: 'product_fee',
+  })
+  productFee: string;
+
   @OneToMany((type) => Contract, (contract) => contract.product)
   contracts: Contract[];
 }
