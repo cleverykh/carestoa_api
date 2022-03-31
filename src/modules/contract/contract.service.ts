@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateQueryBuilder, UpdateResult } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
@@ -15,6 +15,7 @@ export class ContractService {
 
   /**
    * create contract
+   * @param userInfo
    * @param createContractDto
    */
   async createForContract(
@@ -55,19 +56,37 @@ export class ContractService {
     return await this.contractRepo.save(contract);
   }
 
-  findAll() {
-    return `This action returns all contract`;
+  /**
+   * update contract
+   * @param userInfo
+   * @param contractNo
+   * @param updateContractDto
+   */
+  async updateForContract(
+    userInfo: User,
+    contractNo: number,
+    updateContractDto: UpdateContractDto,
+  ): Promise<UpdateResult> {
+    console.log(updateContractDto);
+    let contract = await this.contractRepo
+      .createQueryBuilder()
+      .update()
+      .set(updateContractDto)
+      .where('no = :contractNo', { contractNo })
+      .execute();
+
+    return contract;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contract`;
-  }
+  // findAll() {
+  //   return `This action returns all contract`;
+  // }
 
-  update(id: number, updateContractDto: UpdateContractDto) {
-    return `This action updates a #${id} contract`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} contract`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} contract`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} contract`;
+  // }
 }

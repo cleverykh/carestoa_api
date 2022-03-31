@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AxiosResponse } from 'axios';
@@ -15,6 +16,7 @@ import { UserInfo } from 'src/common/decorators';
 import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
 import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
 import { AuthRolesGuard, CallHttpService } from 'src/core';
+import { UpdateQueryBuilder, UpdateResult } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { ContractService } from './contract.service';
 import { CreateContractDto } from './dto/create-contract.dto';
@@ -42,15 +44,20 @@ export class ContractController {
     );
   }
 
-  @Patch(':id')
-  @ApiOperation({ summary: '계약 수정' })
+  @Patch(':contractNo')
+  @ApiOperation({ summary: '계약 정보 수정' })
   @UseGuards(new AuthRolesGuard())
   @ApiBearerAuth()
   async contractUpdate(
-    @Param('id') id: string,
+    @UserInfo() userInfo: User,
+    @Param('contractNo', ParseIntPipe) contractNo: number,
     @Body() updateContractDto: UpdateContractDto,
-  ) {
-    return await this.contractService.update(+id, updateContractDto);
+  ): Promise<UpdateResult> {
+    return await this.contractService.updateForContract(
+      userInfo,
+      contractNo,
+      updateContractDto,
+    );
   }
 
   @Get('ticker/:symbol/:currency/:limit')
@@ -67,18 +74,18 @@ export class ContractController {
     return this.callHttpService.callHttp(binanceTickerAPI);
   }
 
-  @Get()
-  findAll() {
-    return this.contractService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.contractService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contractService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.contractService.findOne(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contractService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.contractService.remove(+id);
+  // }
 }
