@@ -75,9 +75,10 @@ export class Contract extends BaseEntity<Contract> {
 
   @Column({
     type: 'datetime',
-    name: 'deposit_valid_date',
+    name: 'deposit_issue_date',
+    default: null,
   })
-  depositValidDate: Date;
+  depositIssueDate: Date;
 
   @Column({
     type: 'varchar',
