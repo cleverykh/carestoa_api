@@ -38,8 +38,11 @@ export class CreateContractDto
   @ApiProperty({ description: 'Deposit Address', default: null })
   depositAddress: string;
 
-  @ApiProperty({ description: 'Deposit issue datetime', default: null })
-  depositIssueDate: Date;
+  @ApiProperty({
+    description: 'Deposit issue datetime for unixtime',
+    default: null,
+  })
+  depositIssueDate: number;
 
   @ApiProperty({ description: 'Destination Tag', default: null })
   destinationTag: string;

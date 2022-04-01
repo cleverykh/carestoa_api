@@ -5,6 +5,7 @@ import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurren
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { ContractAmountHistory } from './contract-amount-history.entity';
 
 @Entity({ name: 'contract' })
 export class Contract extends BaseEntity<Contract> {
@@ -81,11 +82,11 @@ export class Contract extends BaseEntity<Contract> {
   depositAddress: string;
 
   @Column({
-    type: 'datetime',
+    type: 'bigint',
     name: 'deposit_issue_date',
     default: null,
   })
-  depositIssueDate: Date;
+  depositIssueDate: number;
 
   @Column({
     type: 'varchar',
@@ -146,4 +147,10 @@ export class Contract extends BaseEntity<Contract> {
     { cascade: true },
   )
   contractExchangeMappers: ContractExchangeMapper[];
+
+  @OneToMany(
+    (type) => ContractAmountHistory,
+    (contractAmountHistory) => contractAmountHistory.contract,
+  )
+  contractAmountHistories: ContractAmountHistory[];
 }
