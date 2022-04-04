@@ -4,12 +4,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getConnection, Repository, UpdateResult } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
 import { User } from '../users/entities/user.entity';
 import { Contract } from './entities/contract.entity';
 import { ContractExchangeMapper } from '../contract_exchange_mapper/contract_exchange_mapper.entity';
+import { ContractAmountHistory } from './entities/contract-amount-history.entity';
 
 @Injectable()
 export class ContractService {
@@ -18,6 +19,8 @@ export class ContractService {
     private readonly contractRepo: Repository<Contract>,
     @InjectRepository(ContractExchangeMapper)
     private readonly contractExchangeMapperRepo: Repository<ContractExchangeMapper>,
+    @InjectRepository(ContractAmountHistory)
+    private readonly contractAmountHistoryRepo: Repository<ContractAmountHistory>,
   ) {}
 
   /**
@@ -73,7 +76,7 @@ export class ContractService {
     userInfo: User,
     contractNo: number,
     updateContractDto: UpdateContractDto,
-  ): Promise<UpdateResult> {
+  ): Promise<Contract> {
     //contract and authority check
     const checkExist = await this.contractRepo.findOne({
       where: {
@@ -96,9 +99,14 @@ export class ContractService {
     const queryRunner = await getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     try {
-      //update for exchanges
+      /**
+       * Update exchange from contract
+       */
       const contractExchangeMapperNumberArray: any = [];
-      if (updateContractDto.exchanges.length > 0) {
+      if (
+        updateContractDto.exchanges &&
+        updateContractDto.exchanges.length > 0
+      ) {
         updateContractDto.exchanges.map((val) => {
           contractExchangeMapperNumberArray.push({
             exchangeNo: val,
@@ -117,24 +125,55 @@ export class ContractService {
           .values(contractExchangeMapperNumberArray)
           .updateEntity(false)
           .execute();
-
-        delete updateContractDto.exchanges;
       }
+      delete updateContractDto.exchanges;
 
-      //update for contract
-      let contract = await this.contractRepo
+      /**
+       * Update for contract
+       */
+      await this.contractRepo
         .createQueryBuilder()
         .update()
         .set(updateContractDto)
         .where('no = :contractNo', { contractNo })
         .execute();
 
+      /**
+       * Insert to contract amount history
+       */
+      if (
+        updateContractDto.contractAmount &&
+        updateContractDto.depositIssueDate
+      ) {
+        updateContractDto.contractNo = contractNo;
+        await this.contractAmountHistoryRepo
+          .createQueryBuilder()
+          .insert()
+          .into(ContractAmountHistory)
+          .values(updateContractDto)
+          .updateEntity(false)
+          .execute();
+      }
+
+      //Return object
+      const contract = await this.contractRepo
+        .createQueryBuilder('contract')
+        .leftJoinAndSelect('contract.product', 'product')
+        .leftJoinAndSelect('contract.cryptocurrency', 'cryptocurrency')
+        .leftJoinAndSelect(
+          'contract.contractExchangeMappers',
+          'contractExchangeMapper',
+        )
+        .leftJoinAndSelect('contractExchangeMapper.exchange', 'exchange')
+        .where('contract.no = :contractNo', { contractNo })
+        .getOne();
+
       await queryRunner.commitTransaction();
 
       return contract;
     } catch (e) {
       await queryRunner.rollbackTransaction();
-
+      console.log(e);
       throw new BadRequestException({
         message: 'Bad request.',
       });

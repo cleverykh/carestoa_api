@@ -7,9 +7,15 @@ import { User } from '../users/entities/user.entity';
 import { CallHttpService } from 'src/core';
 import { HttpModule } from '@nestjs/axios';
 import { ContractExchangeMapper } from '../contract_exchange_mapper/contract_exchange_mapper.entity';
+import { ContractAmountHistory } from './entities/contract-amount-history.entity';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Contract, User, ContractExchangeMapper]),
+    TypeOrmModule.forFeature([
+      Contract,
+      User,
+      ContractExchangeMapper,
+      ContractAmountHistory,
+    ]),
     HttpModule,
   ],
   controllers: [ContractController],

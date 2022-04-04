@@ -9,6 +9,7 @@ export class ContractAmountHistory extends BaseEntity<ContractAmountHistory> {
     name: 'contract_amount',
     precision: 27,
     scale: 18,
+    nullable: false,
   })
   contractAmount: number;
 
@@ -16,8 +17,16 @@ export class ContractAmountHistory extends BaseEntity<ContractAmountHistory> {
     type: 'bigint',
     name: 'deposit_issue_date',
     default: null,
+    nullable: false,
   })
   depositIssueDate: number;
+
+  @Column({
+    type: 'int',
+    name: 'contract_no',
+    unsigned: true,
+  })
+  contractNo: number;
 
   @ManyToOne((type) => Contract, (contract) => contract.contractAmountHistories)
   @JoinColumn({

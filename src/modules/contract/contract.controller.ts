@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -16,7 +15,6 @@ import { UserInfo } from 'src/common/decorators';
 import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
 import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
 import { AuthRolesGuard, CallHttpService } from 'src/core';
-import { UpdateQueryBuilder, UpdateResult } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { ContractService } from './contract.service';
 import { CreateContractDto } from './dto/create-contract.dto';
@@ -52,7 +50,7 @@ export class ContractController {
     @UserInfo() userInfo: User,
     @Param('contractNo', ParseIntPipe) contractNo: number,
     @Body() updateContractDto: UpdateContractDto,
-  ): Promise<UpdateResult> {
+  ): Promise<Contract> {
     return await this.contractService.updateForContract(
       userInfo,
       contractNo,
