@@ -16,6 +16,14 @@ export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
   })
   code: string;
 
+  @Column({
+    type: 'varchar',
+    name: 'deposit_address',
+    nullable: true,
+    default: null,
+  })
+  depositAddress: string;
+
   @OneToMany((type) => Contract, (contract) => contract.cryptocurrency)
   contracts: Contract[];
 }
