@@ -11,6 +11,11 @@ import { User } from '../users/entities/user.entity';
 import { Contract } from './entities/contract.entity';
 import { ContractExchangeMapper } from '../contract_exchange_mapper/contract_exchange_mapper.entity';
 import { ContractAmountHistory } from './entities/contract-amount-history.entity';
+import { Cryptocurrency } from '../cryptocurrency/entities/cryptocurrency.entity';
+import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
+import axios from 'axios';
+import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
+import { randomGenerator } from 'src/core';
 
 @Injectable()
 export class ContractService {
@@ -21,6 +26,8 @@ export class ContractService {
     private readonly contractExchangeMapperRepo: Repository<ContractExchangeMapper>,
     @InjectRepository(ContractAmountHistory)
     private readonly contractAmountHistoryRepo: Repository<ContractAmountHistory>,
+    @InjectRepository(Cryptocurrency)
+    private readonly cryptocurrency: Repository<Cryptocurrency>,
   ) {}
 
   /**
@@ -141,19 +148,11 @@ export class ContractService {
       /**
        * Insert to contract amount history
        */
-      if (
-        updateContractDto.contractAmount &&
-        updateContractDto.depositIssueDate
-      ) {
-        updateContractDto.contractNo = contractNo;
-        await this.contractAmountHistoryRepo
-          .createQueryBuilder()
-          .insert()
-          .into(ContractAmountHistory)
-          .values(updateContractDto)
-          .updateEntity(false)
-          .execute();
-      }
+      if (updateContractDto.cryptocurrencyNo)
+        await this.__InsertForContractAmountHistory(
+          updateContractDto.cryptocurrencyNo,
+          contractNo,
+        );
 
       //Return object
       const contract = await this.contractRepo
@@ -161,11 +160,16 @@ export class ContractService {
         .leftJoinAndSelect('contract.product', 'product')
         .leftJoinAndSelect('contract.cryptocurrency', 'cryptocurrency')
         .leftJoinAndSelect(
+          'contract.contractAmountHistories',
+          'contractAmountHistories',
+        )
+        .leftJoinAndSelect(
           'contract.contractExchangeMappers',
           'contractExchangeMapper',
         )
         .leftJoinAndSelect('contractExchangeMapper.exchange', 'exchange')
         .where('contract.no = :contractNo', { contractNo })
+        .orderBy('contractAmountHistories.createdAt', 'DESC')
         .getOne();
 
       await queryRunner.commitTransaction();
@@ -175,11 +179,68 @@ export class ContractService {
       await queryRunner.rollbackTransaction();
       console.log(e);
       throw new BadRequestException({
-        message: 'Bad request.',
+        message:
+          e.response && e.response.message
+            ? e.response.message
+            : 'Bad request.',
       });
     } finally {
       await queryRunner.release();
     }
+  }
+
+  /**
+   * insert for contract amount History
+   * @param cryptocurrencyNo
+   * @param contractNo
+   */
+  async __InsertForContractAmountHistory(
+    cryptocurrencyNo: number,
+    contractNo: number,
+  ) {
+    const cryptocurrency = await this.cryptocurrency.findOne({
+      where: {
+        no: cryptocurrencyNo,
+      },
+    });
+
+    const binanceTickerAPI = `${
+      SYMBOL_TICKER_URL.BINANCE_DOMAIN
+    }symbol=${cryptocurrency.code.toUpperCase()}USDT&limit=1`;
+
+    const binanceTicerResult: BinanceReturn[] = await axios
+      .get(binanceTickerAPI)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((e) => {
+        throw new BadRequestException({
+          message: 'Failed to get cryptocurrency current price',
+        });
+      });
+
+    let swapAmountVar = parseFloat(binanceTicerResult[0].price) * 15;
+    let swapAmount = parseFloat(
+      swapAmountVar
+        .toFixed(4)
+        .padEnd(
+          swapAmountVar.toString().split('.')[0].length + 9,
+          randomGenerator(0, 9999, 'string').padStart(4, '0'),
+        ),
+    );
+
+    let contractAmountHistory = new ContractAmountHistory();
+    contractAmountHistory.contractNo = contractNo;
+    contractAmountHistory.contractAmount = swapAmount;
+    contractAmountHistory.depositIssueDate = binanceTicerResult[0].time;
+
+    await this.contractAmountHistoryRepo
+      .createQueryBuilder()
+      .insert()
+      .into(ContractAmountHistory)
+      .values(contractAmountHistory)
+      .updateEntity(false)
+      .execute();
   }
 
   // findAll() {

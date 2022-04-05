@@ -32,17 +32,8 @@ export class CreateContractDto
   @ApiProperty({ description: '계약 종료일', default: null })
   contractEndDate: Date;
 
-  @ApiProperty({ description: '코인 송금 금액' })
-  contractAmount: number;
-
   @ApiProperty({ description: 'Deposit Address', default: null })
   depositAddress: string;
-
-  @ApiProperty({
-    description: 'Deposit issue datetime for unixtime',
-    default: null,
-  })
-  depositIssueDate: number;
 
   @ApiProperty({ description: 'Destination Tag', default: null })
   destinationTag: string;

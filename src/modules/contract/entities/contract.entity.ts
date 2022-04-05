@@ -1,4 +1,4 @@
-import { CONTRACT_STATUS, FLAG_YN } from 'src/common';
+import { CONTRACT_STATUS, FLAG_YN, ORDER_BY_VALUE } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
@@ -65,13 +65,13 @@ export class Contract extends BaseEntity<Contract> {
   })
   contractEndDate: Date;
 
-  @Column({
-    type: 'decimal',
-    name: 'contract_amount',
-    precision: 27,
-    scale: 18,
-  })
-  contractAmount: number;
+  // @Column({
+  //   type: 'decimal',
+  //   name: 'contract_amount',
+  //   precision: 27,
+  //   scale: 18,
+  // })
+  // contractAmount: number;
 
   @Column({
     type: 'varchar',
@@ -81,12 +81,12 @@ export class Contract extends BaseEntity<Contract> {
   })
   depositAddress: string;
 
-  @Column({
-    type: 'bigint',
-    name: 'deposit_issue_date',
-    default: null,
-  })
-  depositIssueDate: number;
+  // @Column({
+  //   type: 'bigint',
+  //   name: 'deposit_issue_date',
+  //   default: null,
+  // })
+  // depositIssueDate: number;
 
   @Column({
     type: 'varchar',
