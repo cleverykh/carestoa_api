@@ -14,7 +14,7 @@ export class ExchangeController {
   @ApiOperation({ summary: '거래소 생성' })
   async exchangeCreate(
     @Body() createExchangeDto: CreateExchangeDto,
-  ): Promise<Exchange> {
+  ): Promise<Exchange | Exchange[]> {
     return await this.exchangeService.createForExchange(createExchangeDto);
   }
 

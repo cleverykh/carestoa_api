@@ -1,29 +1,3 @@
-//Exchange code
-export enum EXCHANGE_CODE {
-  'OKBIT' = 'OKB',
-  'WOWPAX' = 'WOW',
-  'GDAC' = 'GDA',
-  'KORBIT' = 'KOR',
-  'COREDAX' = 'COR',
-  'COINBIT' = 'COI',
-  'COINNCOIN' = 'COC',
-  'COINONE' = 'COO',
-  'TENNTEN' = 'TEN',
-  'FOBLGATE' = 'FOB',
-  'PRAVANG' = 'PRA',
-  'PROBIT' = 'PRO',
-  'FLYBIT' = 'FLY',
-  'FLATA' = 'FLA',
-  'HANBITCO' = 'HAN',
-  'HUOBI' = 'HUO',
-}
-
-//Cryptocurrency code
-export enum CRYPTOCURRENCY_CODE {
-  'RIPPLE' = 'XRP',
-  'KLAYSWAP' = 'KSP',
-}
-
 //User Roles
 export enum USER_ROLES {
   'NORMAL_USER' = 'NORMAL_USER',

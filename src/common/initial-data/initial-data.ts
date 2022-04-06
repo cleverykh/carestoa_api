@@ -1,0 +1,40 @@
+export const exchanges = [
+  { name: '고팍스', code: 'GOPAX', image: 'gopax.png' },
+  { name: '메타벡스', code: 'METAVEX', image: 'metavex.png' },
+  { name: '비둘기지갑', code: 'DOVEWALLET', image: 'dovewallet.png' },
+  { name: '보라비트', code: 'BORABIT', image: 'borabit.png' },
+  { name: '비블록', code: 'BEEBLOCK', image: 'beeblock.png' },
+  { name: '비트레이드', code: 'BTRADE', image: 'btrade.png' },
+  { name: '빗썸', code: 'BITHUMB', image: 'bithumb.png' },
+  { name: '빗크몬', code: 'BITCMON', image: 'bitcmon.png' },
+  { name: '아이빗이엑스', code: 'IBITEX', image: 'ibitex.png' },
+  { name: '업비트', code: 'UPBIT', image: 'upbit.png' },
+  { name: '에이프로빗', code: 'APROBIT', image: 'aprobit.png' },
+  { name: '오아시스', code: 'OASIS', image: 'oasis.png' },
+  { name: '오케이비트', code: 'OKBIT', image: 'okbit.png' },
+  { name: '와우팍스', code: 'WOWPAX', image: 'wowpax.png' },
+  { name: '지닥', code: 'GDAC', image: 'gdac.png' },
+  { name: '케셔레스트', code: 'CASHIEREST', image: 'cashierest.png' },
+  { name: '코빗', code: 'KORBIT', image: 'korbit.png' },
+  { name: '코어닥스', code: 'COREDAX', image: 'coredax.png' },
+  { name: '코인빗', code: 'COINBIT', image: 'coinbit.png' },
+  { name: '코인엔코인', code: 'COINNCOIN', image: 'coin&coin.png' },
+  { name: '코인원', code: 'COINONE', image: 'coinone.png' },
+  { name: '텐엔텐', code: 'TENNTEN', image: 'ten&ten.png' },
+  { name: '포블게이트', code: 'FOBLGATE', image: 'foblgate.png' },
+  { name: '프라뱅', code: 'PRAVANG', image: 'pravang.png' },
+  { name: '프로비트', code: 'PROBIT', image: 'probit.png' },
+  { name: '플라이빗', code: 'FLYBIT', image: 'flybit.png' },
+  { name: '플랫타익스체인지', code: 'FLATA', image: 'flata.png' },
+  { name: '한빗코', code: 'HANBITCO', image: 'hanbitco.png' },
+  { name: '후오비코리아', code: 'HUOBI', image: 'huobi.png' },
+];
+
+export const cryptocurrency = [
+  { name: '클레이튼', code: 'KLAY', deposit_address: '' },
+  { name: '리플', code: 'XRP', deposit_address: '' },
+  { name: '비트코인', code: 'BTC', deposit_address: '' },
+];
+export const product = [
+  { status: 'RECRUITMENT', name: '미니보상플랜', product_fee: '15 USDT' },
+];

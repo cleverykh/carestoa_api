@@ -16,6 +16,11 @@ export class Exchange extends BaseEntity<Exchange> {
   })
   code: string;
 
+  @Column({
+    type: 'varchar',
+  })
+  image: string;
+
   @OneToMany(
     (type) => ContractExchangeMapper,
     (contractExchangeMapper) => contractExchangeMapper.exchange,

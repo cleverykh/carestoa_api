@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginatedResponse } from 'src/common';
+import { FLAG_YN, PaginatedResponse } from 'src/common';
+import { exchanges } from 'src/common/initial-data/initial-data';
 import { Repository } from 'typeorm';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
 import { Exchange } from './entities/exchange.entity';
@@ -18,7 +19,12 @@ export class ExchangeService {
    */
   async createForExchange(
     createExchangeDto: CreateExchangeDto,
-  ): Promise<Exchange> {
+  ): Promise<Exchange | Exchange[]> {
+    console.log(createExchangeDto.dumpInsert);
+    if (createExchangeDto.dumpInsert === FLAG_YN.YES) {
+      return await this.exchangeRepo.save(exchanges);
+    }
+
     const checkExist = await this.exchangeRepo.findOne({
       where: [
         { code: createExchangeDto.code },
@@ -32,7 +38,7 @@ export class ExchangeService {
       });
     }
 
-    return await this.exchangeRepo.save(new Exchange(createExchangeDto));
+    return await this.exchangeRepo.save(createExchangeDto);
   }
 
   async findAllForExchange(): Promise<PaginatedResponse<Exchange>> {

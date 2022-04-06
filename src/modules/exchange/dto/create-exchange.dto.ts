@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Length, MinLength } from 'class-validator';
+import { FLAG_YN } from 'src/common';
 import { BaseDto } from 'src/core';
 import { Exchange } from '../entities/exchange.entity';
 
@@ -16,4 +16,10 @@ export class CreateExchangeDto
 
   @ApiProperty({ description: '거래소코드' })
   code: string;
+
+  @ApiProperty({ description: '이미지 파일' })
+  image: string;
+
+  @ApiProperty({ description: 'Dump data insert' })
+  dumpInsert?: FLAG_YN;
 }
