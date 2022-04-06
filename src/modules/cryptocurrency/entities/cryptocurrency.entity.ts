@@ -1,3 +1,4 @@
+import { CRYPTOCURRENCY_SYMBOL } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
@@ -14,7 +15,7 @@ export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
     type: 'varchar',
     unique: true,
   })
-  code: string;
+  symbol: CRYPTOCURRENCY_SYMBOL;
 
   @Column({
     type: 'varchar',

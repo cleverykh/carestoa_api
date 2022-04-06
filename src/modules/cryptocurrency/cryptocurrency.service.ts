@@ -22,7 +22,7 @@ export class CryptocurrencyService {
   ): Promise<Cryptocurrency> {
     const checkExist = await this.cryptocurrencyRepo.findOne({
       where: [
-        { code: createCryptocurrencyDto.code },
+        { code: createCryptocurrencyDto.symbol },
         { name: createCryptocurrencyDto.name },
       ],
     });

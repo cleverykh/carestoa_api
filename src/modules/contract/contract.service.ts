@@ -206,7 +206,7 @@ export class ContractService {
 
     const binanceTickerAPI = `${
       SYMBOL_TICKER_URL.BINANCE_DOMAIN
-    }symbol=${cryptocurrency.code.toUpperCase()}USDT&limit=1`;
+    }symbol=${cryptocurrency.symbol.toUpperCase()}USDT&limit=1`;
 
     const binanceTicerResult: BinanceReturn[] = await axios
       .get(binanceTickerAPI)
