@@ -31,10 +31,15 @@ export const exchanges = [
 ];
 
 export const cryptocurrency = [
-  { name: '클레이튼', code: 'KLAY', deposit_address: '' },
-  { name: '리플', code: 'XRP', deposit_address: '' },
-  { name: '비트코인', code: 'BTC', deposit_address: '' },
+  { name: '클레이튼', code: 'KLAY', depositAddress: '' },
+  { name: '리플', code: 'XRP', depositAddress: '' },
+  { name: '비트코인', code: 'BTC', depositAddress: '' },
 ];
 export const product = [
-  { status: 'RECRUITMENT', name: '미니보상플랜', product_fee: '15 USDT' },
+  {
+    status: 'RECRUITMENT',
+    name: '미니보상플랜',
+    productFee: 15,
+    symbol: 'XRP',
+  },
 ];

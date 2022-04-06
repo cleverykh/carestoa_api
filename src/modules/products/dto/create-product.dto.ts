@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PRODUCT_STATUS } from 'src/common';
+import { CRYPTOCURRENCY_SYMBOL, PRODUCT_STATUS } from 'src/common';
 import { BaseDto } from 'src/core';
 
 export class CreateProductDto extends BaseDto<CreateProductDto> {
@@ -14,5 +14,8 @@ export class CreateProductDto extends BaseDto<CreateProductDto> {
   name: string;
 
   @ApiProperty({ description: '상품 가입 비' })
-  productFee: string;
+  productFee: number;
+
+  @ApiProperty({ description: '화폐 단위', enum: CRYPTOCURRENCY_SYMBOL })
+  symbol: CRYPTOCURRENCY_SYMBOL;
 }

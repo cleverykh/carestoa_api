@@ -1,4 +1,4 @@
-import { PRODUCT_STATUS } from 'src/common';
+import { CRYPTOCURRENCY_SYMBOL, PRODUCT_STATUS } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
@@ -18,10 +18,18 @@ export class Product extends BaseEntity<Product> {
   name: string;
 
   @Column({
-    type: 'varchar',
+    type: 'decimal',
     name: 'product_fee',
+    precision: 27,
+    scale: 18,
+    nullable: true,
   })
-  productFee: string;
+  productFee: number;
+
+  @Column({
+    type: 'varchar',
+  })
+  symbol: CRYPTOCURRENCY_SYMBOL;
 
   @OneToMany((type) => Contract, (contract) => contract.product)
   contracts: Contract[];

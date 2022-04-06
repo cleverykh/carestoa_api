@@ -1,3 +1,10 @@
+//Cryptocurrency code
+export enum CRYPTOCURRENCY_SYMBOL {
+  'RIPPLE' = 'XRP',
+  'KLAYTN' = 'KLAY',
+  'TETHER' = 'USDT',
+}
+
 //User Roles
 export enum USER_ROLES {
   'NORMAL_USER' = 'NORMAL_USER',
