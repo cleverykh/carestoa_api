@@ -16,6 +16,7 @@ import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
 import axios from 'axios';
 import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
 import { randomGenerator } from 'src/core';
+import { CRYPTOCURRENCY_SYMBOL } from 'src/common';
 
 @Injectable()
 export class ContractService {
@@ -148,9 +149,9 @@ export class ContractService {
       /**
        * Insert to contract amount history
        */
-      if (updateContractDto.cryptocurrencyNo)
+      if (updateContractDto.cryptocurrencySymbol)
         await this.__InsertForContractAmountHistory(
-          updateContractDto.cryptocurrencyNo,
+          updateContractDto.cryptocurrencySymbol,
           contractNo,
         );
 
@@ -191,16 +192,16 @@ export class ContractService {
 
   /**
    * insert for contract amount History
-   * @param cryptocurrencyNo
+   * @param cryptocurrencySymbol
    * @param contractNo
    */
   async __InsertForContractAmountHistory(
-    cryptocurrencyNo: number,
+    cryptocurrencySymbol: CRYPTOCURRENCY_SYMBOL,
     contractNo: number,
   ) {
     const cryptocurrency = await this.cryptocurrency.findOne({
       where: {
-        no: cryptocurrencyNo,
+        symbol: cryptocurrencySymbol,
       },
     });
 

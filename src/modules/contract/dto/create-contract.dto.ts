@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CONTRACT_STATUS, FLAG_YN } from 'src/common';
+import { CONTRACT_STATUS, CRYPTOCURRENCY_SYMBOL, FLAG_YN } from 'src/common';
 import { BaseDto } from 'src/core';
 import { Exchange } from 'src/modules/exchange/entities/exchange.entity';
 
@@ -23,8 +23,12 @@ export class CreateContractDto
   @ApiProperty({ description: '계약한 상품종류', default: null })
   productNo: number;
 
-  @ApiProperty({ description: '계약한 상품의 납부할 코인종류', default: null })
-  cryptocurrencyNo: number;
+  @ApiProperty({
+    description: '계약한 상품의 납부할 코인종류',
+    enum: CRYPTOCURRENCY_SYMBOL,
+    default: null,
+  })
+  cryptocurrencySymbol: CRYPTOCURRENCY_SYMBOL;
 
   @ApiProperty({ description: '계약 시작일', default: null })
   contractStartDate: Date;

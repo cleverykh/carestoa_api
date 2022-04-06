@@ -1,4 +1,4 @@
-import { CONTRACT_STATUS, FLAG_YN } from 'src/common';
+import { CONTRACT_STATUS, CRYPTOCURRENCY_SYMBOL, FLAG_YN } from 'src/common';
 import { BaseEntity } from 'src/core';
 import { ContractExchangeMapper } from 'src/modules/contract_exchange_mapper/contract_exchange_mapper.entity';
 import { Cryptocurrency } from 'src/modules/cryptocurrency/entities/cryptocurrency.entity';
@@ -41,13 +41,12 @@ export class Contract extends BaseEntity<Contract> {
   productNo: number;
 
   @Column({
-    type: 'int',
-    name: 'cryptocurrency_no',
-    unsigned: true,
+    type: 'varchar',
+    name: 'cryptocurrency_symbol',
     nullable: true,
     default: null,
   })
-  cryptocurrencyNo: number;
+  cryptocurrencySymbol: CRYPTOCURRENCY_SYMBOL;
 
   @Column({
     type: 'datetime',
@@ -113,8 +112,8 @@ export class Contract extends BaseEntity<Contract> {
     (cryptocurrency) => cryptocurrency.contracts,
   )
   @JoinColumn({
-    name: 'cryptocurrency_no',
-    referencedColumnName: 'no',
+    name: 'cryptocurrency_symbol',
+    referencedColumnName: 'symbol',
   })
   cryptocurrency: Cryptocurrency;
 
