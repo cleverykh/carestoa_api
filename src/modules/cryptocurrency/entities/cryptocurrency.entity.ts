@@ -18,6 +18,11 @@ export class Cryptocurrency extends BaseEntity<Cryptocurrency> {
 
   @Column({
     type: 'varchar',
+  })
+  image: string;
+
+  @Column({
+    type: 'varchar',
     name: 'deposit_address',
     nullable: true,
     default: null,
