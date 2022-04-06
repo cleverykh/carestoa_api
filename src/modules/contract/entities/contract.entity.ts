@@ -89,7 +89,7 @@ export class Contract extends BaseEntity<Contract> {
   productAgreement: FLAG_YN;
 
   @Column({
-    type: 'varchar',
+    type: 'text',
     default: null,
   })
   sign: string;
