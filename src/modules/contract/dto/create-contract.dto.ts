@@ -36,12 +36,6 @@ export class CreateContractDto
   @ApiProperty({ description: '계약 종료일', default: null })
   contractEndDate: Date;
 
-  @ApiProperty({ description: 'Deposit Address', default: null })
-  depositAddress: string;
-
-  @ApiProperty({ description: 'Destination Tag', default: null })
-  destinationTag: string;
-
   @ApiProperty({ description: '보상 금액', default: null })
   compensation: number;
 

@@ -65,14 +65,6 @@ export class Contract extends BaseEntity<Contract> {
   contractEndDate: Date;
 
   @Column({
-    type: 'varchar',
-    name: 'destination_tag',
-    nullable: true,
-    default: null,
-  })
-  destinationTag: string;
-
-  @Column({
     type: 'decimal',
     precision: 27,
     scale: 18,

@@ -12,6 +12,9 @@ export class CreateCryptocurrencyDto extends BaseDto<CreateCryptocurrencyDto> {
   @ApiProperty({ description: '이미지 파일' })
   image: string;
 
-  @ApiProperty({ description: '송금 주소' })
+  @ApiProperty({ description: '송금 주소', default: null })
   depositAddress: string;
+
+  @ApiProperty({ description: 'Destination Tag', default: null })
+  destinationTag: string;
 }
