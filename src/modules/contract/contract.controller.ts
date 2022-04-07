@@ -11,6 +11,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
+import { CONTRACT_STATUS } from 'src/common';
 import { UserInfo } from 'src/common/decorators';
 import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
 import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
@@ -72,10 +73,9 @@ export class ContractController {
     return this.callHttpService.callHttp(binanceTickerAPI);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.contractService.findAll();
-  // }
+  __contractFindByStatus(status: CONTRACT_STATUS) {
+    return this.contractService.contractFindByStatus(status);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

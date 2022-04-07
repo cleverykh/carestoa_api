@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ExchangeModule } from './modules/exchange/exchange.module';
 import { CryptocurrencyModule } from './modules/cryptocurrency/cryptocurrency.module';
 import { ContractModule } from './modules/contract/contract.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 const env = process.env;
 @Module({
@@ -27,6 +28,7 @@ const env = process.env;
       logging: env.NODE_ENV === 'production' ? false : true,
       synchronize: env.NODE_ENV === 'production' ? false : true, //Don't edit it. Never!!
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
     ProductsModule,

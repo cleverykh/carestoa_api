@@ -9,6 +9,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ContractExchangeMapper } from '../contract_exchange_mapper/contract_exchange_mapper.entity';
 import { ContractAmountHistory } from './entities/contract-amount-history.entity';
 import { Cryptocurrency } from '../cryptocurrency/entities/cryptocurrency.entity';
+import { RemittanceCheckTaskService } from './remittance-check.task.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -21,6 +22,6 @@ import { Cryptocurrency } from '../cryptocurrency/entities/cryptocurrency.entity
     HttpModule,
   ],
   controllers: [ContractController],
-  providers: [ContractService, CallHttpService],
+  providers: [ContractService, CallHttpService, RemittanceCheckTaskService],
 })
 export class ContractModule {}

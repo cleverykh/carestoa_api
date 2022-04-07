@@ -16,7 +16,7 @@ import { SYMBOL_TICKER_URL } from 'src/common/interfaces/external-api.type';
 import axios from 'axios';
 import { BinanceReturn } from 'src/common/interfaces/binance-return.type';
 import { randomGenerator } from 'src/core';
-import { CRYPTOCURRENCY_SYMBOL } from 'src/common';
+import { CONTRACT_STATUS, CRYPTOCURRENCY_SYMBOL } from 'src/common';
 
 @Injectable()
 export class ContractService {
@@ -242,6 +242,18 @@ export class ContractService {
       .values(contractAmountHistory)
       .updateEntity(false)
       .execute();
+  }
+
+  /**
+   * find by contract status
+   * @param status
+   */
+  async contractFindByStatus(status: CONTRACT_STATUS) {
+    const [items, totalCount] = await this.contractRepo
+      .createQueryBuilder('contract')
+      .where('contract.contract_status = :status', { status })
+      .getManyAndCount();
+    return { totalCount, items };
   }
 
   // findAll() {
