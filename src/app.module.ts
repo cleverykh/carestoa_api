@@ -9,6 +9,8 @@ import { ExchangeModule } from './modules/exchange/exchange.module';
 import { CryptocurrencyModule } from './modules/cryptocurrency/cryptocurrency.module';
 import { ContractModule } from './modules/contract/contract.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 
 const env = process.env;
 @Module({
@@ -29,6 +31,19 @@ const env = process.env;
       synchronize: env.NODE_ENV === 'production' ? false : true, //Don't edit it. Never!!
     }),
     ScheduleModule.forRoot(),
+    MailerModule.forRoot({
+      transport: `smtps://${env.EMAIL_AUTH_EMAIL}:${env.EMAIL_AUTH_PASSWORD}@${env.EMAIL_HOST}`,
+      defaults: {
+        from: `"${env.EMAIL_FROM_USER_NAME}" <${env.EMAIL_AUTH_EMAIL}>`,
+      },
+      template: {
+        dir: 'dist/templates',
+        adapter: new EjsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
     AuthModule,
     UsersModule,
     ProductsModule,
