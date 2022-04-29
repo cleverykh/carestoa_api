@@ -8,14 +8,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtConfigService } from 'src/config';
 import { PasswordService } from './password.service';
 import { JwtStrategy } from './jwt/jwt.strategy';
+import { EmailSendService } from 'src/core/utils/email-send-service';
+import { EmailSendHistory } from '../email-send-history/email-send-history.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, EmailSendHistory]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({ useClass: JwtConfigService }),
   ],
   controllers: [AuthController],
-  providers: [PasswordService, AuthService, JwtStrategy],
+  providers: [PasswordService, AuthService, JwtStrategy, EmailSendService],
 })
 export class AuthModule {}

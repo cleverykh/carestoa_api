@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/user-login.dto';
@@ -8,8 +8,15 @@ import { UserLoginDto } from './dto/user-login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get('/authentication/:email')
+  async authenticationNumberRequest(
+    @Param('email') email: string,
+  ): Promise<any> {
+    return await this.authService.requestForAuthenticationNumber(email);
+  }
+
   @Post('/user/login')
-  login(@Body() userLoginDto: UserLoginDto): Promise<String> {
-    return this.authService.userLogin(userLoginDto);
+  async login(@Body() userLoginDto: UserLoginDto): Promise<String> {
+    return await this.authService.userLogin(userLoginDto);
   }
 }

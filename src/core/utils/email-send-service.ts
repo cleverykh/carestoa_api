@@ -11,11 +11,23 @@ export class EmailSendService {
    * @param subject 메일 제목
    * @param templateName 사용할 ejs 템플릿
    */
-  async send(to: string, subject: string, templateName: string): Promise<any> {
+  async send(
+    to: string,
+    subject: string,
+    templateName: string,
+    authenticationNumber: string,
+  ): Promise<any> {
     return await this.mailerService.sendMail({
       to,
       subject,
-      template: `${templateName}`,
+      html: `
+      <div class="wrap-content">
+        <p class="title">CareSTOA 이메일 인증 안내</p>
+        <p class="description">
+          인증번호는 : ${authenticationNumber}
+        </p>
+      </div>
+      `,
     });
   }
 }

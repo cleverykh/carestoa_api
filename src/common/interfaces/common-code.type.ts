@@ -5,6 +5,13 @@ export enum CRYPTOCURRENCY_SYMBOL {
   'TETHER' = 'USDT',
 }
 
+//Email type
+export enum EMAIL_TYPE {
+  'SIGNIN' = 'SIGNIN',
+  'EMAIL_AUTHENTICATION' = 'EMAIL_AUTHENTICATION',
+  'WITHDRAWAL' = 'WITHDRAWAL',
+}
+
 //User Roles
 export enum USER_ROLES {
   'NORMAL_USER' = 'NORMAL_USER',
