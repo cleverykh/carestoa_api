@@ -19,7 +19,7 @@ $ npm run start:prod
 
 ## env 파일 필요
 
-- David 에게 요청
+- David 에게 요청!!
 
 ## Docker 이용한 mysql 명령
 
